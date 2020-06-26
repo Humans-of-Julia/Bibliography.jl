@@ -2,7 +2,7 @@ function import_bib(
     language::BibTeXLanguage,
     file::AbstractString
     )
-    return BibParser.parsebibfile(file)[1]
+    return BibParser.parse_file(file)[1]
 end
 
 function string(
@@ -17,7 +17,7 @@ function string(
             for i in 1:l
                 spaces *= " "
             end
-            str *= ",\n  " * string(key) * spaces * " = {" * entry.fields[key] * "}"
+            str *= ",\n  " * string(key) * spaces * " = \"" * entry.fields[key] * "\""
         end
     end
     str *= "\n}"
