@@ -1,39 +1,21 @@
 module Bibliography
 
-import Base.string,
-       BibInternal,
-       BibParser,
-       DataStructures
+# BibInternal
+import BibInternal
+import BibInternal: AbstractEntry
+import BibInternal.BibTeX: Article, Book, Booklet, InBook, InCollection, InProceedings, Manual, MasterThesis, Misc, PhDThesis, Proceedings, TechReport, Unpublished
 
-export export_bib,
-       import_bib
+# BibParser
+import BibParser, BibParser.BibTeX
 
-# SortedBibliography = DataStructures.SortedDict{Int,BibInternal.Entry}
+export export_bibtex, import_bibtex
+# export export_web, bibtex_to_web
 
-abstract type AbstractLanguage end
-struct BibTeXLanguage <: AbstractLanguage end
 include("bibtex.jl")
+include("staticweb.jl")
 
-function import_bib(
-    file::AbstractString;
-    language::AbstractLanguage=BibTeXLanguage()
-    )
-    return import_bib(language, file)
-end
-
-function string(
-    entry::BibInternal.Entry;
-    language::AbstractLanguage=BibTeXLanguage()
-    )
-    return string(entry, language)
-end
-
-function export_bib(
-    entries; # TODO: Supertype of iterable objects ?
-    language::AbstractLanguage=BibTeXLanguage(),
-    target::AbstractString=""
-    )
-    data = export_bib(entries, language)
+function export_bibtex(target::AbstractString, bibliography::Set{AbstractEntry})
+    data = export_bibtex(bibliography)
     if target != ""
         f = open(target, "w")
         write(f, data)
