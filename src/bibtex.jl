@@ -98,7 +98,6 @@ function export_bibtex(entry::InBook)
     str *= field_to_bibtex("volume", entry.volume)
     str *= field_to_bibtex("year", entry.year)
     for (key, value) in pairs(entry.other)
-        println("key = $key, value = $value")
         str *= field_to_bibtex(key, value)
     end
     return str[1:end - 2] * "\n}"
@@ -269,7 +268,7 @@ function export_bibtex(entry::Unpublished)
     return str[1:end - 2] * "\n}"
 end
 
-function export_bibtex(bibliography::Set{AbstractEntry})
+function export_bibtex(bibliography::DataStructures.OrderedSet{AbstractEntry})
     str = ""
     for e in bibliography
         str *= export_bibtex(e) * "\n"

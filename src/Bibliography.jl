@@ -8,13 +8,17 @@ import BibInternal.BibTeX: Article, Book, Booklet, InBook, InCollection, InProce
 # BibParser
 import BibParser, BibParser.BibTeX
 
+# Others
+import DataStructures
+import DataStructures.OrderedSet
+
 export export_bibtex, import_bibtex
 export export_web, bibtex_to_web
 
 include("bibtex.jl")
 include("staticweb.jl")
 
-function export_bibtex(target::AbstractString, bibliography::Set{AbstractEntry})
+function export_bibtex(target::AbstractString, bibliography::DataStructures.OrderedSet{AbstractEntry})
     data = export_bibtex(bibliography)
     if target != ""
         f = open(target, "w")

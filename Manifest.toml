@@ -17,8 +17,8 @@ uuid = "2027ae74-3657-4b95-ae00-e2f7d55c3e64"
 version = "0.3.0"
 
 [[BibParser]]
-deps = ["Automa", "BibInternal"]
-git-tree-sha1 = "9258275c7096b093bdee8f07a8f756ddf680ca7a"
+deps = ["Automa", "BibInternal", "DataStructures"]
+git-tree-sha1 = "13037e3885ae4a1d2e99ada8534c9868f308f0be"
 repo-rev = "master"
 repo-url = "git@github.com:Azzaare/BibParser.jl.git"
 uuid = "13533e5b-e1c2-4e57-8cef-cac5e52f6474"

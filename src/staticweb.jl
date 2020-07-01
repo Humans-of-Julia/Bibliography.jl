@@ -1,3 +1,13 @@
+function xtype(entry::BibInternal.AbstractEntry)
+    str = "other"
+    if typeof(entry) == Article
+        str = "journal"
+    elseif typeof(entry) == InProceedings
+        str = "conference"
+    end
+    return str
+end
+
 function xtitle(entry::T) where T <: BibInternal.AbstractEntry
     return :title ∈ fieldnames(typeof(entry)) ? entry.title : get(entry.other, "title", "")
 end
@@ -11,8 +21,9 @@ function xnames(entry::BibInternal.AbstractEntry, editors::Bool=false)
     start = true
     stop = 1
     for s in split(names, r"[\n\r ]and[\n\r ]")
-        aux = split(s, r"[\n\r ],[\n\r ]")
+        aux = split(s, r"[\n\r ]*,[\n\r ]*")
         str *= start ? "" : ", "
+        start = false
         str *= aux[end]
         for t in aux[1:end - 1]
             str *= " " * t
@@ -35,6 +46,8 @@ function xin(entry::BibInternal.AbstractEntry)
         end
     elseif typeof(entry) == InProceedings
         str *= "Proceedings of the " * entry.booktitle
+    elseif typeof(entry) == InBook
+        str *= get(entry.other, "booktitle", "")
     end
     str *= str == "" ? "" : "."
     return str
@@ -76,7 +89,7 @@ struct Publication
 end
 
 function Publication(entry::T) where T <: BibInternal.AbstractEntry
-    type = lowercase(string(T))
+    type = xtype(entry)
     title = xtitle(entry)
     names = xnames(entry)
     in_ = xin(entry)
@@ -87,7 +100,7 @@ function Publication(entry::T) where T <: BibInternal.AbstractEntry
     return Publication(type, title, names, in_, year, link, file, cite)
 end
 
-function export_web(bibliography::Set{BibInternal.AbstractEntry})
+function export_web(bibliography::DataStructures.OrderedSet{BibInternal.AbstractEntry})
     entries = Vector{Publication}()
     for entry in bibliography
         p = Publication(entry)
