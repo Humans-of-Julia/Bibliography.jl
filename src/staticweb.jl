@@ -78,6 +78,7 @@ function xcite(entry::BibInternal.AbstractEntry)
 end
 
 struct Publication
+    id::AbstractString
     type::AbstractString
     title::AbstractString
     names::AbstractString
@@ -89,6 +90,7 @@ struct Publication
 end
 
 function Publication(entry::T) where T <: BibInternal.AbstractEntry
+    id = entry.id
     type = xtype(entry)
     title = xtitle(entry)
     names = xnames(entry)
@@ -97,7 +99,7 @@ function Publication(entry::T) where T <: BibInternal.AbstractEntry
     link = xlink(entry)
     file = xfile(entry)
     cite = export_bibtex(entry)
-    return Publication(type, title, names, in_, year, link, file, cite)
+    return Publication(id, type, title, names, in_, year, link, file, cite)
 end
 
 function export_web(bibliography::DataStructures.OrderedSet{BibInternal.AbstractEntry})
