@@ -21,7 +21,8 @@ function field_to_bibtex(
     key::AbstractString,
     value::AbstractString
     )
-    return value == "" ? "" : " $key$(spaces[key]) = {$value},\n"
+    space = get(spaces, key, int_to_spaces(BibInternal.space(Symbol(key))))
+    return value == "" ? "" : " $key$space = {$value},\n"
 end
 
 function export_bibtex(entry::Article)
@@ -96,7 +97,8 @@ function export_bibtex(entry::InBook)
     str *= field_to_bibtex("type", entry.type)
     str *= field_to_bibtex("volume", entry.volume)
     str *= field_to_bibtex("year", entry.year)
-    for (key, value) in pairs(entry.other)        
+    for (key, value) in pairs(entry.other)
+        println("key = $key, value = $value")
         str *= field_to_bibtex(key, value)
     end
     return str[1:end - 2] * "\n}"
@@ -129,20 +131,20 @@ end
 
 function export_bibtex(entry::InProceedings)
     str  = "@inproceedings{" * entry.id * ",\n"
+    str *= field_to_bibtex("address", entry.address)
     str *= field_to_bibtex("author", entry.author)
     str *= field_to_bibtex("booktitle", entry.booktitle)
-    str *= field_to_bibtex("publisher", entry.publisher)
-    str *= field_to_bibtex("title", entry.title)
-    str *= field_to_bibtex("year", entry.year)
-    str *= field_to_bibtex("address", entry.address)
     str *= field_to_bibtex("editor", entry.editor)
     str *= field_to_bibtex("key", entry.key)
     str *= field_to_bibtex("month", entry.month)
     str *= field_to_bibtex("note", entry.note)
     str *= field_to_bibtex("number", entry.number)
     str *= field_to_bibtex("pages", entry.pages)
+    str *= field_to_bibtex("publisher", entry.publisher)
     str *= field_to_bibtex("series", entry.series)
+    str *= field_to_bibtex("title", entry.title)
     str *= field_to_bibtex("volume", entry.volume)
+    str *= field_to_bibtex("year", entry.year)
     for (key, value) in pairs(entry.other)        
         str *= field_to_bibtex(key, value)
     end

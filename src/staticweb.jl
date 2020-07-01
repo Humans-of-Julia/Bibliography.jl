@@ -87,7 +87,7 @@ function Publication(entry::T) where T <: BibInternal.AbstractEntry
     return Publication(type, title, names, in_, year, link, file, cite)
 end
 
-function publications(bibliography::Set{BibInternal.AbstractEntry})
+function export_web(bibliography::Set{BibInternal.AbstractEntry})
     entries = Vector{Publication}()
     for entry in bibliography
         p = Publication(entry)

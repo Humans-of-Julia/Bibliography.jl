@@ -9,7 +9,7 @@ import BibInternal.BibTeX: Article, Book, Booklet, InBook, InCollection, InProce
 import BibParser, BibParser.BibTeX
 
 export export_bibtex, import_bibtex
-# export export_web, bibtex_to_web
+export export_web, bibtex_to_web
 
 include("bibtex.jl")
 include("staticweb.jl")
@@ -22,6 +22,10 @@ function export_bibtex(target::AbstractString, bibliography::Set{AbstractEntry})
         close(f)
     end
     return data
+end
+
+function bibtex_to_web(source::AbstractString)
+    export_web(import_bibtex(source))
 end
 
 end # module
