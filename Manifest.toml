@@ -10,19 +10,19 @@ version = "0.8.0"
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
 [[BibInternal]]
-git-tree-sha1 = "d7b5b3695dedf0e0b23213c87ff15d5bf090d4ac"
+git-tree-sha1 = "b0cfec106aa6efee0ecf91a6a4d691912974b310"
 repo-rev = "master"
 repo-url = "git@github.com:Azzaare/BibInternal.jl.git"
 uuid = "2027ae74-3657-4b95-ae00-e2f7d55c3e64"
-version = "0.3.0"
+version = "0.1.0"
 
 [[BibParser]]
 deps = ["Automa", "BibInternal", "DataStructures"]
-git-tree-sha1 = "13037e3885ae4a1d2e99ada8534c9868f308f0be"
+git-tree-sha1 = "249f2465b9bb5ada11c323e918b978af0e10b8e0"
 repo-rev = "master"
 repo-url = "git@github.com:Azzaare/BibParser.jl.git"
 uuid = "13533e5b-e1c2-4e57-8cef-cac5e52f6474"
-version = "0.3.0"
+version = "0.1.0"
 
 [[DataStructures]]
 deps = ["InteractiveUtils", "OrderedCollections"]

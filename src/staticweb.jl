@@ -77,6 +77,11 @@ function xcite(entry::BibInternal.AbstractEntry)
     string(entry)
 end
 
+function xlabels(entry::BibInternal.AbstractEntry)
+    str = get(entry.other, "labels", "")
+    return split(str, r"[\n\r ]*,[\n\r ]*")
+end
+
 struct Publication
     id::AbstractString
     type::AbstractString
@@ -87,6 +92,7 @@ struct Publication
     link::AbstractString
     file::AbstractString
     cite::AbstractString
+    labels::Vector{AbstractString}
 end
 
 function Publication(entry::T) where T <: BibInternal.AbstractEntry
@@ -99,7 +105,8 @@ function Publication(entry::T) where T <: BibInternal.AbstractEntry
     link = xlink(entry)
     file = xfile(entry)
     cite = export_bibtex(entry)
-    return Publication(id, type, title, names, in_, year, link, file, cite)
+    labels = xlabels(entry)
+    return Publication(id, type, title, names, in_, year, link, file, cite, labels)
 end
 
 function export_web(bibliography::DataStructures.OrderedSet{BibInternal.AbstractEntry})
