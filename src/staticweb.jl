@@ -69,8 +69,7 @@ function xlink(entry::BibInternal.AbstractEntry)
 end
 
 function xfile(entry::BibInternal.AbstractEntry)
-    path = "files/$(entry.id).pdf"
-    return isfile(path) ? path : ""
+    return "files/$(entry.id).pdf"
 end
 
 function xcite(entry::BibInternal.AbstractEntry)
