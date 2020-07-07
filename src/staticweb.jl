@@ -62,11 +62,11 @@ function xlink(entry::BibInternal.AbstractEntry)
     str = ""
     if :doi ∈ fn
         str = "https://doi.org/" * entry.doi
-    elseif "doi" == keys(entry.other)
+    elseif "doi" ∈ keys(entry.other)
         str = "https://doi.org/" * entry.other["doi"]
     elseif :url ∈ fn
         str = entry.url
-    elseif "url" == keys(entry.other)
+    elseif "url" ∈ keys(entry.other)
         str = entry.other["url"]
     end
     return str
