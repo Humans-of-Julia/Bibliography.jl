@@ -18,7 +18,7 @@ export export_web, bibtex_to_web
 include("bibtex.jl")
 include("staticweb.jl")
 
-function export_bibtex(target::AbstractString, bibliography::DataStructures.OrderedSet{AbstractEntry})
+function export_bibtex(target::String, bibliography::DataStructures.OrderedDict{String,AbstractEntry})
     data = export_bibtex(bibliography)
     if target != ""
         f = open(target, "w")
@@ -28,7 +28,7 @@ function export_bibtex(target::AbstractString, bibliography::DataStructures.Orde
     return data
 end
 
-function bibtex_to_web(source::AbstractString)
+function bibtex_to_web(source::String)
     export_web(import_bibtex(source))
 end
 

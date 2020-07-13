@@ -1,4 +1,4 @@
-function import_bibtex(file::AbstractString)
+function import_bibtex(file::String)
     return BibParser.BibTeX.parse_file(file)[1]
 end
 
@@ -11,15 +11,15 @@ function int_to_spaces(n::Int)
 end
 
 # Dictionnary to handle spaces while exporting BibTeX
-const spaces = Dict{AbstractString,AbstractString}(map(
+const spaces = Dict{String,String}(map(
     s -> (string(s) => int_to_spaces(BibInternal.space(s))),
     BibInternal.fields)
 )
 
 # Function to write required fields
 function field_to_bibtex(
-    key::AbstractString,
-    value::AbstractString
+    key::String,
+    value::String
     )
     space = get(spaces, key, int_to_spaces(BibInternal.space(Symbol(key))))
     return value == "" ? "" : " $key$space = {$value},\n"
@@ -36,7 +36,7 @@ function export_bibtex(entry::Article)
     str *= field_to_bibtex("title", entry.title)
     str *= field_to_bibtex("volume", entry.volume)
     str *= field_to_bibtex("year", entry.year)
-    for (key, value) in pairs(entry.other)        
+    for (key, value) in pairs(entry.fields)        
         str *= field_to_bibtex(key, value)
     end
     return str[1:end - 2] * "\n}"
@@ -57,7 +57,7 @@ function export_bibtex(entry::Book)
     str *= field_to_bibtex("title", entry.title)
     str *= field_to_bibtex("volume", entry.volume)
     str *= field_to_bibtex("year", entry.year)
-    for (key, value) in pairs(entry.other)        
+    for (key, value) in pairs(entry.fields)        
         str *= field_to_bibtex(key, value)
     end
     return str[1:end - 2] * "\n}"
@@ -73,7 +73,7 @@ function export_bibtex(entry::Booklet)
     str *= field_to_bibtex("note", entry.note)
     str *= field_to_bibtex("title", entry.title)
     str *= field_to_bibtex("year", entry.year)
-    for (key, value) in pairs(entry.other)        
+    for (key, value) in pairs(entry.fields)        
         str *= field_to_bibtex(key, value)
     end
     return str[1:end - 2] * "\n}"
@@ -97,7 +97,7 @@ function export_bibtex(entry::InBook)
     str *= field_to_bibtex("type", entry.type)
     str *= field_to_bibtex("volume", entry.volume)
     str *= field_to_bibtex("year", entry.year)
-    for (key, value) in pairs(entry.other)
+    for (key, value) in pairs(entry.fields)
         str *= field_to_bibtex(key, value)
     end
     return str[1:end - 2] * "\n}"
@@ -122,7 +122,7 @@ function export_bibtex(entry::InCollection)
     str *= field_to_bibtex("type", entry.type)
     str *= field_to_bibtex("volume", entry.volume)
     str *= field_to_bibtex("year", entry.year)
-    for (key, value) in pairs(entry.other)        
+    for (key, value) in pairs(entry.fields)        
         str *= field_to_bibtex(key, value)
     end
     return str[1:end - 2] * "\n}"
@@ -144,7 +144,7 @@ function export_bibtex(entry::InProceedings)
     str *= field_to_bibtex("title", entry.title)
     str *= field_to_bibtex("volume", entry.volume)
     str *= field_to_bibtex("year", entry.year)
-    for (key, value) in pairs(entry.other)        
+    for (key, value) in pairs(entry.fields)        
         str *= field_to_bibtex(key, value)
     end
     return str[1:end - 2] * "\n}"
@@ -161,7 +161,7 @@ function export_bibtex(entry::Manual)
     str *= field_to_bibtex("organization", entry.organization)
     str *= field_to_bibtex("title", entry.title)
     str *= field_to_bibtex("year", entry.year)
-    for (key, value) in pairs(entry.other)        
+    for (key, value) in pairs(entry.fields)        
         str *= field_to_bibtex(key, value)
     end
     return str[1:end - 2] * "\n}"
@@ -178,7 +178,7 @@ function export_bibtex(entry::MasterThesis)
     str *= field_to_bibtex("title", entry.title)
     str *= field_to_bibtex("type", entry.type)
     str *= field_to_bibtex("year", entry.year)
-    for (key, value) in pairs(entry.other)        
+    for (key, value) in pairs(entry.fields)        
         str *= field_to_bibtex(key, value)
     end
     return str[1:end - 2] * "\n}"
@@ -193,7 +193,7 @@ function export_bibtex(entry::Misc)
     str *= field_to_bibtex("note", entry.note)
     str *= field_to_bibtex("title", entry.title)
     str *= field_to_bibtex("year", entry.year)
-    for (key, value) in pairs(entry.other)        
+    for (key, value) in pairs(entry.fields)        
         str *= field_to_bibtex(key, value)
     end
     return str[1:end - 2] * "\n}"
@@ -210,7 +210,7 @@ function export_bibtex(entry::PhDThesis)
     str *= field_to_bibtex("title", entry.title)
     str *= field_to_bibtex("type", entry.type)
     str *= field_to_bibtex("year", entry.year)
-    for (key, value) in pairs(entry.other)        
+    for (key, value) in pairs(entry.fields)        
         str *= field_to_bibtex(key, value)
     end
     return str[1:end - 2] * "\n}"
@@ -230,7 +230,7 @@ function export_bibtex(entry::Proceedings)
     str *= field_to_bibtex("title", entry.title)
     str *= field_to_bibtex("volume", entry.volume)
     str *= field_to_bibtex("year", entry.year)
-    for (key, value) in pairs(entry.other)        
+    for (key, value) in pairs(entry.fields)        
         str *= field_to_bibtex(key, value)
     end
     return str[1:end - 2] * "\n}"
@@ -248,7 +248,7 @@ function export_bibtex(entry::TechReport)
     str *= field_to_bibtex("title", entry.title)
     str *= field_to_bibtex("type", entry.type)
     str *= field_to_bibtex("year", entry.year)
-    for (key, value) in pairs(entry.other)        
+    for (key, value) in pairs(entry.fields)        
         str *= field_to_bibtex(key, value)
     end
     return str[1:end - 2] * "\n}"
@@ -262,15 +262,15 @@ function export_bibtex(entry::Unpublished)
     str *= field_to_bibtex("note", entry.note)
     str *= field_to_bibtex("title", entry.title)
     str *= field_to_bibtex("year", entry.year)
-    for (key, value) in pairs(entry.other)        
+    for (key, value) in pairs(entry.fields)        
         str *= field_to_bibtex(key, value)
     end
     return str[1:end - 2] * "\n}"
 end
 
-function export_bibtex(bibliography::DataStructures.OrderedSet{AbstractEntry})
+function export_bibtex(bibliography::DataStructures.OrderedDict{String,AbstractEntry})
     str = ""
-    for e in bibliography
+    for e in values(bibliography)
         str *= export_bibtex(e) * "\n"
     end
     return str[1:end - 1]

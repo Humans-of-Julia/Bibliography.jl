@@ -9,7 +9,7 @@ function xtype(entry::BibInternal.AbstractEntry)
 end
 
 function xtitle(entry::T) where T <: BibInternal.AbstractEntry
-    return :title ∈ fieldnames(typeof(entry)) ? entry.title : get(entry.other, "title", "")
+    return :title ∈ fieldnames(typeof(entry)) ? entry.title : get(entry.fields, "title", "")
 end
 
 function xnames(entry::BibInternal.AbstractEntry, editors::Bool=false)
@@ -47,14 +47,14 @@ function xin(entry::BibInternal.AbstractEntry)
     elseif typeof(entry) == InProceedings
         str *= "Proceedings of the " * entry.booktitle
     elseif typeof(entry) == InBook
-        str *= get(entry.other, "booktitle", "")
+        str *= get(entry.fields, "booktitle", "")
     end
     str *= str == "" ? "" : "."
     return str
 end
 
 function xyear(entry::BibInternal.AbstractEntry)
-    return :year ∈ fieldnames(typeof(entry)) ? entry.year : get(entry.other, "year", "")
+    return :year ∈ fieldnames(typeof(entry)) ? entry.year : get(entry.fields, "year", "")
 end
 
 function xlink(entry::BibInternal.AbstractEntry)
@@ -62,12 +62,12 @@ function xlink(entry::BibInternal.AbstractEntry)
     str = ""
     if :doi ∈ fn
         str = "https://doi.org/" * entry.doi
-    elseif "doi" ∈ keys(entry.other)
-        str = "https://doi.org/" * entry.other["doi"]
+    elseif "doi" ∈ keys(entry.fields)
+        str = "https://doi.org/" * entry.fields["doi"]
     elseif :url ∈ fn
         str = entry.url
-    elseif "url" ∈ keys(entry.other)
-        str = entry.other["url"]
+    elseif "url" ∈ keys(entry.fields)
+        str = entry.fields["url"]
     end
     return str
 end
@@ -81,21 +81,21 @@ function xcite(entry::BibInternal.AbstractEntry)
 end
 
 function xlabels(entry::BibInternal.AbstractEntry)
-    str = get(entry.other, "labels", "")
+    str = get(entry.fields, "labels", "")
     return split(str, r"[\n\r ]*,[\n\r ]*")
 end
 
 struct Publication
-    id::AbstractString
-    type::AbstractString
-    title::AbstractString
-    names::AbstractString
-    in::AbstractString
-    year::AbstractString
-    link::AbstractString
-    file::AbstractString
-    cite::AbstractString
-    labels::Vector{AbstractString}
+    id::String
+    type::String
+    title::String
+    names::String
+    in::String
+    year::String
+    link::String
+    file::String
+    cite::String
+    labels::Vector{String}
 end
 
 function Publication(entry::T) where T <: BibInternal.AbstractEntry
@@ -112,9 +112,9 @@ function Publication(entry::T) where T <: BibInternal.AbstractEntry
     return Publication(id, type, title, names, in_, year, link, file, cite, labels)
 end
 
-function export_web(bibliography::DataStructures.OrderedSet{BibInternal.AbstractEntry})
+function export_web(bibliography::DataStructures.OrderedDict{String,BibInternal.AbstractEntry})
     entries = Vector{Publication}()
-    for entry in bibliography
+    for entry in values(bibliography)
         p = Publication(entry)
         push!(entries, p)
     end
