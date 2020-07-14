@@ -3,7 +3,7 @@ module Bibliography
 # BibInternal
 import BibInternal
 import BibInternal: AbstractEntry
-import BibInternal.BibTeX: Article, Book, Booklet, InBook, InCollection, InProceedings, Manual, MasterThesis, Misc, PhDThesis, Proceedings, TechReport, Unpublished
+import BibInternal.BibTeX: Article, Book, Booklet, InBook, InCollection, InProceedings, Manual, MasterThesis, Misc, PhDThesis, Proceedings, TechReport, Unpublished, BibtexName
 
 # BibParser
 import BibParser, BibParser.BibTeX

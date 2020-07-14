@@ -25,9 +25,32 @@ function field_to_bibtex(
     return value == "" ? "" : " $key$space = {$value},\n"
 end
 
+function bibtexname_to_string(name::BibtexName)
+    str = "$(name.particle) $(name.last)"
+    str *= name.junior == "" ? "" : ", $(name.junior)"
+    str *= name.first == "" ? "" : ", $(name.first) $(name.middle)"
+    str = replace(str, r"[\n\r ]+" => " ")
+    l = length(str)
+    start = str[1] == ' ' ? min(2,l) : 1
+    stop = str[end] == ' ' ? max(1,l-1) : l
+    return str[start:stop]
+end
+
+function bibtexnames_to_string(names::Vector{BibtexName})
+    if length(names) ≥ 1
+        str = bibtexname_to_string(names[1])
+    end
+    if length(names) > 1
+        for name in names[2:end]
+            str *= " and " * bibtexname_to_string(name)
+        end
+    end
+    return str
+end
+
 function export_bibtex(entry::Article)
     str  = "@article{" * entry.id * ",\n"
-    str *= field_to_bibtex("author", entry.author)
+    str *= field_to_bibtex("author", bibtexnames_to_string(entry.author))
     str *= field_to_bibtex("key", entry.key)
     str *= field_to_bibtex("month", entry.month)
     str *= field_to_bibtex("note", entry.note)
@@ -45,9 +68,9 @@ end
 function export_bibtex(entry::Book)
     str  = "@book{" * entry.id * ",\n"
     str *= field_to_bibtex("address", entry.address)
-    str *= field_to_bibtex("author", entry.author)
+    str *= field_to_bibtex("author", bibtexnames_to_string(entry.author))
     str *= field_to_bibtex("edition", entry.edition)
-    str *= field_to_bibtex("editor", entry.editor)
+    str *= field_to_bibtex("editor", bibtexnames_to_string(entry.editor))
     str *= field_to_bibtex("key", entry.key)
     str *= field_to_bibtex("month", entry.month)
     str *= field_to_bibtex("note", entry.note)
@@ -66,7 +89,7 @@ end
 function export_bibtex(entry::Booklet)
     str  = "@booklet{" * entry.id * ",\n"
     str *= field_to_bibtex("address", entry.address)
-    str *= field_to_bibtex("author", entry.author)
+    str *= field_to_bibtex("author", bibtexnames_to_string(entry.author))
     str *= field_to_bibtex("howpublished", entry.howpublished)
     str *= field_to_bibtex("key", entry.key)
     str *= field_to_bibtex("month", entry.month)
@@ -82,10 +105,10 @@ end
 function export_bibtex(entry::InBook)
     str  = "@inbook{" * entry.id * ",\n"
     str *= field_to_bibtex("address", entry.address)
-    str *= field_to_bibtex("author", entry.author)
+    str *= field_to_bibtex("author", bibtexnames_to_string(entry.author))
     str *= field_to_bibtex("chapter", entry.chapter)
     str *= field_to_bibtex("edition", entry.edition)
-    str *= field_to_bibtex("editor", entry.editor)
+    str *= field_to_bibtex("editor", bibtexnames_to_string(entry.editor))
     str *= field_to_bibtex("key", entry.key)
     str *= field_to_bibtex("month", entry.month)
     str *= field_to_bibtex("note", entry.note)
@@ -106,11 +129,11 @@ end
 function export_bibtex(entry::InCollection)
     str  = "@incollection{" * entry.id * ",\n"
     str *= field_to_bibtex("address", entry.address)
-    str *= field_to_bibtex("author", entry.author)
+    str *= field_to_bibtex("author", bibtexnames_to_string(entry.author))
     str *= field_to_bibtex("booktitle", entry.booktitle)
     str *= field_to_bibtex("chapter", entry.chapter)
     str *= field_to_bibtex("edition", entry.edition)
-    str *= field_to_bibtex("editor", entry.editor)
+    str *= field_to_bibtex("editor", bibtexnames_to_string(entry.editor))
     str *= field_to_bibtex("key", entry.key)
     str *= field_to_bibtex("month", entry.month)
     str *= field_to_bibtex("note", entry.note)
@@ -131,9 +154,9 @@ end
 function export_bibtex(entry::InProceedings)
     str  = "@inproceedings{" * entry.id * ",\n"
     str *= field_to_bibtex("address", entry.address)
-    str *= field_to_bibtex("author", entry.author)
+    str *= field_to_bibtex("author", bibtexnames_to_string(entry.author))
     str *= field_to_bibtex("booktitle", entry.booktitle)
-    str *= field_to_bibtex("editor", entry.editor)
+    str *= field_to_bibtex("editor", bibtexnames_to_string(entry.editor))
     str *= field_to_bibtex("key", entry.key)
     str *= field_to_bibtex("month", entry.month)
     str *= field_to_bibtex("note", entry.note)
@@ -153,7 +176,7 @@ end
 function export_bibtex(entry::Manual)
     str  = "@manual{" * entry.id * ",\n"
     str *= field_to_bibtex("address", entry.address)
-    str *= field_to_bibtex("author", entry.author)
+    str *= field_to_bibtex("author", bibtexnames_to_string(entry.author))
     str *= field_to_bibtex("edition", entry.edition)
     str *= field_to_bibtex("key", entry.key)
     str *= field_to_bibtex("month", entry.month)
@@ -170,7 +193,7 @@ end
 function export_bibtex(entry::MasterThesis)
     str  = "@masterthesis{" * entry.id * ",\n"
     str *= field_to_bibtex("address", entry.address)
-    str *= field_to_bibtex("author", entry.author)
+    str *= field_to_bibtex("author", bibtexnames_to_string(entry.author))
     str *= field_to_bibtex("key", entry.key)
     str *= field_to_bibtex("month", entry.month)
     str *= field_to_bibtex("note", entry.note)
@@ -186,7 +209,7 @@ end
 
 function export_bibtex(entry::Misc)
     str  = "@misc{" * entry.id * ",\n"
-    str *= field_to_bibtex("author", entry.author)
+    str *= field_to_bibtex("author", bibtexnames_to_string(entry.author))
     str *= field_to_bibtex("howpublished", entry.howpublished)
     str *= field_to_bibtex("key", entry.key)
     str *= field_to_bibtex("month", entry.month)
@@ -202,7 +225,7 @@ end
 function export_bibtex(entry::PhDThesis)
     str  = "@phdthesis{" * entry.id * ",\n"
     str *= field_to_bibtex("address", entry.address)
-    str *= field_to_bibtex("author", entry.author)
+    str *= field_to_bibtex("author", bibtexnames_to_string(entry.author))
     str *= field_to_bibtex("key", entry.key)
     str *= field_to_bibtex("month", entry.month)
     str *= field_to_bibtex("note", entry.note)
@@ -219,7 +242,7 @@ end
 function export_bibtex(entry::Proceedings)
     str  = "@proceedings{" * entry.id * ",\n"
     str *= field_to_bibtex("address", entry.address)
-    str *= field_to_bibtex("editor", entry.editor)
+    str *= field_to_bibtex("editor", bibtexnames_to_string(entry.editor))
     str *= field_to_bibtex("key", entry.key)
     str *= field_to_bibtex("month", entry.month)
     str *= field_to_bibtex("note", entry.note)
@@ -239,7 +262,7 @@ end
 function export_bibtex(entry::TechReport)
     str  = "@techreport{" * entry.id * ",\n"
     str *= field_to_bibtex("address", entry.address)
-    str *= field_to_bibtex("author", entry.author)
+    str *= field_to_bibtex("author", bibtexnames_to_string(entry.author))
     str *= field_to_bibtex("institution", entry.institution)
     str *= field_to_bibtex("key", entry.key)
     str *= field_to_bibtex("month", entry.month)
@@ -256,7 +279,7 @@ end
 
 function export_bibtex(entry::Unpublished)
     str  = "@unpublished{" * entry.id * ",\n"
-    str *= field_to_bibtex("author", entry.author)
+    str *= field_to_bibtex("author", bibtexnames_to_string(entry.author))
     str *= field_to_bibtex("key", entry.key)
     str *= field_to_bibtex("month", entry.month)
     str *= field_to_bibtex("note", entry.note)
