@@ -6,7 +6,7 @@ import BibInternal: AbstractEntry
 import BibInternal.BibTeX: Article, Book, Booklet, InBook, InCollection, InProceedings, Manual, MasterThesis, Misc, PhDThesis, Proceedings, TechReport, Unpublished, BibtexName
 
 # BibParser
-import BibParser, BibParser.BibTeX
+import BibParser, BibParser.BibTeXParser
 
 # Others
 import DataStructures

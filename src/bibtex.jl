@@ -1,5 +1,5 @@
 function import_bibtex(file::String)
-    return BibParser.BibTeX.parse_file(file)[1]
+    return BibParser.parse_file(file)
 end
 
 function int_to_spaces(n::Int)
@@ -31,9 +31,9 @@ function bibtexname_to_string(name::BibtexName)
     str *= name.first == "" ? "" : ", $(name.first) $(name.middle)"
     str = replace(str, r"[\n\r ]+" => " ")
     l = length(str)
-    start = str[1] == ' ' ? min(2,l) : 1
-    stop = str[end] == ' ' ? max(1,l-1) : l
-    return str[start:stop]
+    # start = str[1] == ' ' ? min(2,l) : 1
+    # stop = str[end] == ' ' ? max(1,l-1) : l
+    return str
 end
 
 function bibtexnames_to_string(names::Vector{BibtexName})
