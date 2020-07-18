@@ -2,11 +2,10 @@ module Bibliography
 
 # BibInternal
 import BibInternal
-import BibInternal: AbstractEntry
-import BibInternal.BibTeX: Article, Book, Booklet, InBook, InCollection, InProceedings, Manual, MasterThesis, Misc, PhDThesis, Proceedings, TechReport, Unpublished, BibtexName
+import BibInternal: AbstractEntry, Entry
 
 # BibParser
-import BibParser, BibParser.BibTeXParser
+import BibParser, BibParser.BibTeX
 
 # Others
 import DataStructures
@@ -18,7 +17,7 @@ export export_web, bibtex_to_web
 include("bibtex.jl")
 include("staticweb.jl")
 
-function export_bibtex(target::String, bibliography::DataStructures.OrderedDict{String,AbstractEntry})
+function export_bibtex(target::String, bibliography::DataStructures.OrderedDict{String,Entry})
     data = export_bibtex(bibliography)
     if target != ""
         f = open(target, "w")

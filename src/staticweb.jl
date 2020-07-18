@@ -1,27 +1,34 @@
-function xtype(entry::BibInternal.AbstractEntry)
-    str = "other"
-    if typeof(entry) == Article
-        str = "journal"
-    elseif typeof(entry) == InProceedings
-        str = "conference"
-    end
-    return str
-end
+const type_to_label = Dict{String, String}([
+    "article"         => "journal",
+    "book"            => "book",
+    "booklet"         => "booklet",
+    "eprint"          => "eprint",
+    "inbook"          => "book chapter",
+    "incollection"    => "book section",
+    "inproceedings"   => "conference",
+    "manual"          => "manual",
+    "masterthesis"    => "master thesis",
+    "misc"            => "other",
+    "phdthesis"       => "doctoral thesis",
+    "proceedings"     => "proceedings",
+    "techreport"      => "report",
+    "unpublished"     => "other"
+])
 
-function xtitle(entry::T) where T <: BibInternal.AbstractEntry
+function xtitle(entry::T) where T <: BibInternal.Entry
     return :title ∈ fieldnames(typeof(entry)) ? entry.title : get(entry.fields, "title", "")
 end
 
 function xnames(
-    entry::BibInternal.AbstractEntry,
+    entry::BibInternal.Entry,
     editors::Bool=false;
     names::Symbol=:full # Current options: :last, :full
     )
     # forces the names to be editors' name if the entry are Proceedings
-    if !editors && typeof(entry) ∈ [Proceedings]
+    if !editors && entry.type ∈ ["proceedings"]
         return xnames(entry, true)
     end
-    entry_names = editors ? entry.editor : entry.author
+    entry_names = editors ? entry.editors : entry.authors
     str = ""
 
     start = true
@@ -34,60 +41,104 @@ function xnames(
             str *= s.first * " " * s.middle * " " * s.particle * " " * s.last * " " * s.junior
         end
     end
-    return replace(str, r"[\n\r ]+" => " ") # TODO: hack for extra space char, make it cleaner
+    # str *= editors ? ", editors" : ""
+    return replace(str, r"[\n\r ]+" => " ") # TODO: make it cleaner (is replace still necessary)
 end
 
-# handle all entries
-function xin(entry::BibInternal.AbstractEntry)
-    fn = fieldnames(typeof(entry))
+function xin(entry::BibInternal.Entry)
     str = ""
-    if typeof(entry) == Article
-        str *= entry.journal * ", " * entry.volume
-        if entry.number != ""
-            str *= "($(entry.number))"
+    if entry.type == "article"
+        str *= entry.in.journal * ", " * entry.in.volume
+        str *= entry.in.number != "" ? "($(entry.in.number))" : ""
+        str *= entry.in.pages != "" ? ", $(entry.in.pages)" : ""
+        str *= ", " * entry.date.year
+    elseif entry.type == "book"
+        str *= entry.in.publisher
+        str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
+        str *= ", " * entry.date.year        
+    elseif entry.type == "booklet"
+        str *= entry.access.howpublished * ", " * entry.date.year
+    elseif entry.type == "eprint"
+        if entry.eprint.archive_prefix == ""
+            str *= entry.eprint.eprint
+        else
+            str *= "$(entry.eprint.archive_prefix):$(entry.eprint.eprint) [$(entry.eprint.primary_class)]"
         end
-        if entry.pages != ""
-            str *= ", " * entry.pages
-        end
-    elseif typeof(entry) == InProceedings
-        str *= "Proceedings of the " * entry.booktitle
-    elseif typeof(entry) == InBook
-        str *= get(entry.fields, "booktitle", "")
+    elseif entry.type == "inbook"
+        aux = entry.in.chapter == "" ? entry.in.pages : entry.in.chapter
+        str *= entry.booktitle * ", " * aux * ", " * entry.in.publisher
+        str *= entry.in.address != "" ? ", " * entry.in.address : ""
+    elseif entry.type == "incollection"
+        str = "In " * xnames(entry, true) * ", editors, " * entry.booktitle * ", " * entry.in.pages * "."
+        str *= " " * entry.in.publisher
+        str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
+        str *= ", " * entry.date.year   
+    elseif entry.type == "inproceedings"
+        str *= " In " * entry.booktitle
+        str *= entry.in.series != "" ? ", " * entry.in.series : ""
+        str *= entry.in.pages != "" ? ", $(entry.in.pages)" : ""
+        str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
+        str *= ", " * entry.date.year
+        str *= entry.in.publisher != "" ? ". $(entry.in.publisher)" : ""
+    elseif entry.type == "manual" 
+        str *= entry.in.organization
+        str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
+        str *= ", " * entry.date.year
+    elseif entry.type ∈ ["masterthesis", "phdthesis"]
+        str *= entry.type == "masterthesis" ? "Master's" : "PhD"
+        str *= " thesis, " * entry.in.school
+        str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
+        str *= ", " * entry.date.year
+    elseif entry.type == "misc"
+        aux = entry.access.howpublished != "" != entry.date.year ? ", " : ""
+        str *= entry.access.howpublished * aux * entry.date.year
+        str *= aux != "" && get(entry.fields, "note", "") != "" ? ". " : ""
+        str *= get(entry.fields, "note", "")
+    elseif entry.type == "proceedings"
+        str *= entry.in.volume != "" ? "Volume " * entry.in.volume * " of " : ""
+        str *= entry.in.series
+        str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
+        str *= ", " * entry.date.year
+        str *= entry.in.publisher != "" ? ". $(entry.in.address)" : ""
+    elseif entry.type == "techreport"
+        str *= entry.in.number != "" ? "Technical Report " * entry.in.number * ", " : ""
+        str *= entry.in.institution
+        str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
+        str *= ", " * entry.date.year
+    elseif entry.type == "unpublished"
+        aux = get(entry.fields, "note", "") 
+        str *= aux != "" != entry.date.year ? aux * ", " : ""
+        str *= entry.date.year
     end
     str *= str == "" ? "" : "."
     return str
 end
 
-function xyear(entry::BibInternal.AbstractEntry)
-    return :year ∈ fieldnames(typeof(entry)) ? entry.year : get(entry.fields, "year", "")
+function xyear(entry::BibInternal.Entry)
+    return entry.date.year
 end
 
-function xlink(entry::BibInternal.AbstractEntry)
-    fn = fieldnames(typeof(entry))
-    str = ""
-    if :doi ∈ fn
-        str = "https://doi.org/" * entry.doi
-    elseif "doi" ∈ keys(entry.fields)
-        str = "https://doi.org/" * entry.fields["doi"]
-    elseif :url ∈ fn
-        str = entry.url
-    elseif "url" ∈ keys(entry.fields)
-        str = entry.fields["url"]
+function xlink(entry::BibInternal.Entry)
+    if entry.access.doi != ""
+        return "https://doi.org/" * entry.access.doi
+    elseif entry.access.url != ""
+        return entry.access.url
     end
-    return str
+    return ""
 end
 
-function xfile(entry::BibInternal.AbstractEntry)
+function xfile(entry::BibInternal.Entry)
     return "files/$(entry.id).pdf"
 end
 
-function xcite(entry::BibInternal.AbstractEntry)
+function xcite(entry::BibInternal.Entry)
     string(entry)
 end
 
-function xlabels(entry::BibInternal.AbstractEntry)
-    str = get(entry.fields, "labels", "")
-    return split(str, r"[\n\r ]*,[\n\r ]*")
+function xlabels(entry::BibInternal.Entry)
+    str = get(entry.fields, "swp-labels", "")
+    str = str == "" ? get(entry.fields, "labels", "") : str
+    return str == "" ? [entry.type] : split(str, r"[\n\r ]*,[\n\r ]*")
 end
 
 struct Publication
@@ -103,10 +154,10 @@ struct Publication
     labels::Vector{String}
 end
 
-function Publication(entry::T) where T <: BibInternal.AbstractEntry
+function Publication(entry::BibInternal.Entry)
     id = entry.id
-    type = xtype(entry)
-    title = xtitle(entry)
+    type = entry.type
+    title = entry.title
     names = xnames(entry)
     in_ = xin(entry)
     year = xyear(entry)
@@ -117,7 +168,9 @@ function Publication(entry::T) where T <: BibInternal.AbstractEntry
     return Publication(id, type, title, names, in_, year, link, file, cite, labels)
 end
 
-function export_web(bibliography::DataStructures.OrderedDict{String,BibInternal.AbstractEntry})
+function export_web(
+    bibliography::DataStructures.OrderedDict{String,BibInternal.Entry}
+    )
     entries = Vector{Publication}()
     for entry in values(bibliography)
         p = Publication(entry)
