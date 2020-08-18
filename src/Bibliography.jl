@@ -15,6 +15,7 @@ export export_bibtex, import_bibtex
 export export_web, bibtex_to_web
 
 include("bibtex.jl")
+include("csl.jl")
 include("staticweb.jl")
 
 function export_bibtex(target::String, bibliography::DataStructures.OrderedDict{String,Entry})

@@ -10,25 +10,21 @@ version = "0.8.0"
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
 [[BibInternal]]
-git-tree-sha1 = "9da0b33694a90a8439f4cb8ae4d8080e18b7a453"
-repo-rev = "master"
-repo-url = "https://github.com/Azzaare/BibInternal.jl.git"
+git-tree-sha1 = "71045cd344c6be7c5d5977053f74fc6567f897ff"
 uuid = "2027ae74-3657-4b95-ae00-e2f7d55c3e64"
-version = "0.2.1"
+version = "0.2.2"
 
 [[BibParser]]
 deps = ["Automa", "BibInternal", "DataStructures"]
-git-tree-sha1 = "3a1c5110bb67e6355cf081f6313a03e23e5f538f"
-repo-rev = "master"
-repo-url = "https://github.com/Azzaare/BibParser.jl.git"
+git-tree-sha1 = "f2f7cb0ff38227bfecbc30265a684d7e623659a9"
 uuid = "13533e5b-e1c2-4e57-8cef-cac5e52f6474"
-version = "0.1.4"
+version = "0.1.7"
 
 [[DataStructures]]
 deps = ["InteractiveUtils", "OrderedCollections"]
-git-tree-sha1 = "edad9434967fdc0a2631a65d902228400642120c"
+git-tree-sha1 = "88d48e133e6d3dd68183309877eac74393daa7eb"
 uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-version = "0.17.19"
+version = "0.17.20"
 
 [[Distributed]]
 deps = ["Random", "Serialization", "Sockets"]
