@@ -1,3 +1,7 @@
+"""
+    import_bibtex(file::String)
+Import a BibTeX file and convert it to the internal bibliography format.
+"""
 function import_bibtex(file::String)
     return BibParser.parse_file(file)
 end

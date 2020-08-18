@@ -18,6 +18,12 @@ include("bibtex.jl")
 include("csl.jl")
 include("staticweb.jl")
 
+"""
+    export_bibtex(e::Entry)
+    export_bibtex(bibliography::DataStructures.OrderedDict{String,Entry})
+    export_bibtex(target::String, bibliography::DataStructures.OrderedDict{String,Entry})
+Export an entry or a bibliography to BibTeX format.
+"""
 function export_bibtex(target::String, bibliography::DataStructures.OrderedDict{String,Entry})
     data = export_bibtex(bibliography)
     if target != ""
@@ -28,6 +34,10 @@ function export_bibtex(target::String, bibliography::DataStructures.OrderedDict{
     return data
 end
 
+"""
+    bibtex_to_web(source::String)
+Convert a BibTeX file to a web compatible format, specifically for the [StaticWebPages.jl](https://github.com/Azzaare/StaticWebPages.jl) pakcage.
+"""
 function bibtex_to_web(source::String)
     export_web(import_bibtex(source))
 end

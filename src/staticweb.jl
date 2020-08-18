@@ -168,6 +168,10 @@ function Publication(entry::BibInternal.Entry)
     return Publication(id, type, title, names, in_, year, link, file, cite, labels)
 end
 
+"""
+    export_web(bibliography::DataStructures.OrderedDict{String,BibInternal.Entry})
+Export a biblography in internal format to the web format of the [StaticWebPages.jl](https://github.com/Azzaare/StaticWebPages.jl) pakcage.
+"""
 function export_web(
     bibliography::DataStructures.OrderedDict{String,BibInternal.Entry}
     )

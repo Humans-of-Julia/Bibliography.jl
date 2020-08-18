@@ -1,0 +1,6 @@
+```@contents
+```
+
+```@autodocs
+Modules = [BibParser]
+```
