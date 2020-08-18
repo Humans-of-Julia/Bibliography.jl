@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.com/Azzaare/Bibliography.jl.svg?branch=master)](https://travis-ci.com/Azzaare/Bibliography.jl)
+[![codecov](https://codecov.io/gh/Azzaare/Bibliography.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/Azzaare/Bibliography.jl)
+[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://Azzaare.github.io/Bibliography.jl/dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # Bibliographies.jl
 
 Bibliography is a Julia package for handling both import/export from various bibliographic format.
