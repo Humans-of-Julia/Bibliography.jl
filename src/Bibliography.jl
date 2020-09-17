@@ -13,6 +13,7 @@ import DataStructures.OrderedSet
 
 export export_bibtex, import_bibtex
 export export_web, bibtex_to_web
+export select
 
 include("select.jl")
 include("bibtex.jl")

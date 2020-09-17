@@ -27,7 +27,13 @@ This package comes as a set of 3 packages to convert bibliographies. This tool w
 
 ```julia
 # Import a BibTeX file to the internal bib structure
-import_bibtex(source_path::AbstractString)
+imported_bib = import_bibtex(source_path::AbstractString)
+
+
+# Select a part of a bibliography
+selection = ["key1", "key2"]
+selected_bib = select(imported_bib, selection) # select the intersection between the bibliography and `selection`
+diff_bib = select(imported_bib, selection; complementary = true) # select the difference between the bibliography and `selection`
 
 # Export from internal to BibTeX format
 export_bibtex(target_path::AbstractString, bibliography)
