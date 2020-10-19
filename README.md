@@ -3,13 +3,13 @@
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://Azzaare.github.io/Bibliography.jl/dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# Bibliographies.jl
+# Bibliography.jl
 
-Bibliography is a Julia package for handling both import/export from various bibliographic format.
+Bibliography.jl is a Julia package for handling both import/export from various bibliographic format.
 
 ### Organization
 
-This package comes as a set of 3 packages to convert bibliographies. This tool was split into three for teh sake of the precompilation times.
+This package comes as a set of 3 packages to convert bibliographies. This tool was split into three for the sake of the precompilation times.
 - [Bibliography.jl](https://github.com/Azzaare/Bibliography.jl): the interface to import/export bibliographic items.
 - [BibInternal.jl](https://github.com/Azzaare/BibInternal.jl): A julian internal format to translate from and into.
 - [BibParser.jl](https://github.com/Azzaare/Bibliography.jl): A container for different bibliographic format parsers (such as BibTeX).
