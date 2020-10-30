@@ -10,15 +10,15 @@ version = "0.8.0"
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
 [[BibInternal]]
-git-tree-sha1 = "71045cd344c6be7c5d5977053f74fc6567f897ff"
+git-tree-sha1 = "a47ef5ad24aa16e6d84b4454871e2b04049b01a4"
 uuid = "2027ae74-3657-4b95-ae00-e2f7d55c3e64"
-version = "0.2.2"
+version = "0.2.3"
 
 [[BibParser]]
 deps = ["Automa", "BibInternal", "DataStructures"]
-git-tree-sha1 = "f2f7cb0ff38227bfecbc30265a684d7e623659a9"
+git-tree-sha1 = "6a2c5411366d58016820e71aa3e89cb11c453c77"
 uuid = "13533e5b-e1c2-4e57-8cef-cac5e52f6474"
-version = "0.1.7"
+version = "0.1.8"
 
 [[DataStructures]]
 deps = ["InteractiveUtils", "OrderedCollections"]
