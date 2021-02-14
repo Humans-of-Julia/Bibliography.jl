@@ -1,6 +1,7 @@
-[![Build Status](https://travis-ci.com/Azzaare/Bibliography.jl.svg?branch=master)](https://travis-ci.com/Azzaare/Bibliography.jl)
-[![codecov](https://codecov.io/gh/Azzaare/Bibliography.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/Azzaare/Bibliography.jl)
-[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://Azzaare.github.io/Bibliography.jl/dev)
+[![Docs](https://img.shields.io/badge/docs-dev-blue.svg)](https://Humans-of-Julia.github.io/Bibliography.jl/dev)
+[![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://Humans-of-Julia.github.io/Bibliography.jl/stable)
+[![Build Status](https://github.com/Humans-of-Julia/Bibliography.jl/workflows/CI/badge.svg)](https://github.com/Humans-of-Julia/Bibliography.jl/actions)
+[![codecov](https://codecov.io/gh/Humans-of-Julia/Bibliography.jl/branch/master/graph/badge.svg?token=iiIHSFqA31)](https://codecov.io/gh/Humans-of-Julia/Bibliography.jl)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Bibliography.jl
@@ -10,18 +11,18 @@ Bibliography.jl is a Julia package for handling both import/export from various 
 ### Organization
 
 This package comes as a set of 3 packages to convert bibliographies. This tool was split into three for the sake of the precompilation times.
-- [Bibliography.jl](https://github.com/Azzaare/Bibliography.jl): the interface to import/export bibliographic items.
-- [BibInternal.jl](https://github.com/Azzaare/BibInternal.jl): A julian internal format to translate from and into.
-- [BibParser.jl](https://github.com/Azzaare/Bibliography.jl): A container for different bibliographic format parsers (such as BibTeX).
+- [Bibliography.jl](https://github.com/Humans-of-Julia/Bibliography.jl): the interface to import/export bibliographic items.
+- [BibInternal.jl](https://github.com/Humans-of-Julia/BibInternal.jl): A julian internal format to translate from and into.
+- [BibParser.jl](https://github.com/Humans-of-Julia/BibParser.jl): A container for different bibliographic format parsers (such as BibTeX).
 
 ### Packages using Bibliographies
 
-- [StaticWebPages.jl]((https://github.com/Azzaare/StaticWebPages.jl)): a black-box generator for static websites oriented towards personal and/or academic pages. No knowledge of Julia nor any other programming language is required.
+- [StaticWebPages.jl]((https://github.com/Humans-of-Julia/StaticWebPages.jl)): a black-box generator for static websites oriented towards personal and/or academic pages. No knowledge of Julia nor any other programming language is required.
 
 ### Contributions are welcome
-- Write new or integrate existing parsers to [BibParser.jl]((https://github.com/Azzaare/Bibliography.jl)) (currently only a light BibTeX parser is available)
-- Add import/export from existing bibliographic formats to [Bibliography.jl]((https://github.com/Azzaare/Bibliography.jl))
-- Add export for non-bibliographic formats (such as in [StaticWebPages.jl]((https://github.com/Azzaare/StaticWebPages.jl)))
+- Write new or integrate existing parsers to [BibParser.jl]((https://github.com/Humans-of-Julia/BibParser.jl)) (currently only a light BibTeX parser is available)
+- Add import/export from existing bibliographic formats to [Bibliography.jl]((https://github.com/Humans-of-Julia/Bibliography.jl))
+- Add export for non-bibliographic formats (such as in [StaticWebPages.jl]((https://github.com/Humans-of-Julia/StaticWebPages.jl)))
 
 ## Short documentation 
 
