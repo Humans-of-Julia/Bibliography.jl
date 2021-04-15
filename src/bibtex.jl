@@ -27,7 +27,7 @@ function field_to_bibtex(
     )
     space = get(spaces, key, int_to_spaces(BibInternal.space(Symbol(key))))
     swp = length(key) > 3 && key[1:3] == "swp"
-    o,f = isnothing(match(r"[@{}]", value)) ? ('{','}') : ('"','"')
+    o,f = isnothing(match(r"@", value)) ? ('{','}') : ('"','"')
     return value == "" || swp ? "" : " $key$space = $o$value$f,\n"
 end
 
@@ -107,6 +107,7 @@ end
 function export_bibtex(e::Entry)
     access_to_bibtex!(e.fields, e.access)
     e.fields["author"] = names_to_strings(e.authors)
+    e.fields["booktitle"] = e.booktitle
     date_to_bibtex!(e.fields, e.date)
     e.fields["editor"] = names_to_strings(e.editors)
     eprint_to_bibtex!(e.fields, e.eprint)
