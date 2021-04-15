@@ -27,7 +27,8 @@ function field_to_bibtex(
     )
     space = get(spaces, key, int_to_spaces(BibInternal.space(Symbol(key))))
     swp = length(key) > 3 && key[1:3] == "swp"
-    return value == "" || swp ? "" : " $key$space = {$value},\n"
+    o,f = isnothing(match(r"[@{}]", value)) ? ('{','}') : ('"','"')
+    return value == "" || swp ? "" : " $key$space = $o$value$f,\n"
 end
 
 function name_to_string(name::BibInternal.Name)
@@ -64,7 +65,7 @@ function access_to_bibtex!(
     )
     fields["doi"] = a.doi
     fields["howpublished"] = a.howpublished
-    fields["url"] = a.url    
+    fields["url"] = a.url
 end
 
 function date_to_bibtex!(
@@ -125,7 +126,7 @@ end
 function export_bibtex(bibliography::DataStructures.OrderedDict{String,Entry})
     str = ""
     for e in values(bibliography)
-        str *= export_bibtex(e) * "\n"
+        str *= export_bibtex(e) * "\n\n"
     end
     return str[1:end - 1]
 end
