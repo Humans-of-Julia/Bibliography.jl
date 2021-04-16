@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>BibInternal · Bibliography.jl</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">Bibliography.jl</span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Bibliography</a></li><li class="is-active"><a class="tocitem" href>BibInternal</a></li><li><a class="tocitem" href="../parser/">BibParser</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>BibInternal</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>BibInternal</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/Humans-of-Julia/Bibliography.jl/blob/master/docs/src/internal.md#L" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><ul></ul><article class="docstring"><header><a class="docstring-binding" id="BibInternal.entries" href="#BibInternal.entries"><code>BibInternal.entries</code></a> — <span class="docstring-category">Constant</span></header><section><div><pre><code class="language-julia">const entries = [
+    :article,
+    :book,
+    :booklet,
+    :inbook,
+    :incollection,
+    :inproceedings,
+    :manual,
+    :masterthesis,
+    :misc,
+    :phdthesis,
+    :proceedings,
+    :techreport,
+    :unpublished,
+]</code></pre><p>List of possible entries (currently based on bibtex). Keep it sorted for readability.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.fields" href="#BibInternal.fields"><code>BibInternal.fields</code></a> — <span class="docstring-category">Constant</span></header><section><div><pre><code class="language-julia">const fields = [
+    :address,
+    :annote,
+    :archivePrefix,
+    :author,
+    :booktitle,
+    :chapter,
+    :crossref,
+    :edition,
+    :editor,
+    :eprint,
+    :howpublished,
+    :institution,
+    :journal,
+    :key,
+    :month,
+    :note,
+    :number,
+    :organization,
+    :pages,
+    :primaryClass,
+    :publisher,
+    :school,
+    :series,
+    :title,
+    :type,
+    :volume,
+    :year
+]</code></pre><p>List of possible fields (currently based on bibtex). Keep it sorted for readability</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.maxfieldlength" href="#BibInternal.maxfieldlength"><code>BibInternal.maxfieldlength</code></a> — <span class="docstring-category">Constant</span></header><section><div><pre><code class="language-julia">const maxfieldlength</code></pre><p>For output formatting purpose, for instance, export to BibTeX format.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.rules" href="#BibInternal.rules"><code>BibInternal.rules</code></a> — <span class="docstring-category">Constant</span></header><section><div><pre><code class="language-julia">const rules = Dict([
+    &quot;article&quot;       =&gt; [&quot;author&quot;, &quot;journal&quot;, &quot;title&quot;, &quot;year&quot;]
+    &quot;book&quot;          =&gt; [(&quot;author&quot;, &quot;editor&quot;), &quot;publisher&quot;, &quot;title&quot;, &quot;year&quot;]
+    &quot;booklet&quot;       =&gt; [&quot;title&quot;]
+    &quot;eprint&quot;        =&gt; [&quot;author&quot;, &quot;eprint&quot;, &quot;title&quot;, &quot;year&quot;]
+    &quot;inbook&quot;        =&gt; [(&quot;author&quot;, &quot;editor&quot;), (&quot;chapter&quot;, &quot;pages&quot;), &quot;publisher&quot;, &quot;title&quot;, &quot;year&quot;]
+    &quot;incollection&quot;  =&gt; [&quot;author&quot;, &quot;booktitle&quot;, &quot;publisher&quot;, &quot;title&quot;, &quot;year&quot;]
+    &quot;inproceedings&quot; =&gt; [&quot;author&quot;, &quot;booktitle&quot;, &quot;title&quot;, &quot;year&quot;]
+    &quot;manual&quot;        =&gt; [&quot;title&quot;]
+    &quot;masterthesis&quot;  =&gt; [&quot;author&quot;, &quot;school&quot;, &quot;title&quot;, &quot;year&quot;]
+    &quot;misc&quot;          =&gt; []
+    &quot;phdthesis&quot;     =&gt; [&quot;author&quot;, &quot;school&quot;, &quot;title&quot;, &quot;year&quot;]
+    &quot;proceedings&quot;   =&gt; [&quot;title&quot;, &quot;year&quot;]
+    &quot;techreport&quot;    =&gt; [&quot;author&quot;, &quot;institution&quot;, &quot;title&quot;, &quot;year&quot;]
+    &quot;unpublished&quot;   =&gt; [&quot;author&quot;, &quot;note&quot;, &quot;title&quot;]
+])</code></pre><p>List of BibTeX rules bases on the entry type. A field value as a singleton represents a required field. A pair of values represents mutually exclusive required fields.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.AbstractEntry" href="#BibInternal.AbstractEntry"><code>BibInternal.AbstractEntry</code></a> — <span class="docstring-category">Type</span></header><section><div><pre><code class="language-julia">abstract type AbstractEntry end</code></pre><p>Abstract Entry supertype.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.Access" href="#BibInternal.Access"><code>BibInternal.Access</code></a> — <span class="docstring-category">Type</span></header><section><div><pre><code class="language-julia">struct Access
+    doi::String
+    howpublished::String
+    url::String
+end</code></pre><p>Store the online access of an entry as a String. Handles the fields <code>doi</code> and <code>url</code> and the <code>arXiV</code> entries. For additional fields or entries, please fill an issue or make a pull request.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.Access-Tuple{Dict{String, String}}" href="#BibInternal.Access-Tuple{Dict{String, String}}"><code>BibInternal.Access</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia">Access(fields::Fields)</code></pre><p>Construct the online access information based on the entry fields.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.Date" href="#BibInternal.Date"><code>BibInternal.Date</code></a> — <span class="docstring-category">Type</span></header><section><div><pre><code class="language-julia">struct Date
+    day::String
+    month::String
+    year::String
+end</code></pre><p>Store the date information as <code>day</code>, <code>month</code>, and <code>year</code>.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.Date-Tuple{Dict{String, String}}" href="#BibInternal.Date-Tuple{Dict{String, String}}"><code>BibInternal.Date</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia">Date(fields::Fields)</code></pre><p>Construct the date information based on the entry fields.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.Entry" href="#BibInternal.Entry"><code>BibInternal.Entry</code></a> — <span class="docstring-category">Type</span></header><section><div><pre><code class="language-julia">struct Entry &lt;: AbstractEntry
+    access::Access
+    authors::Names
+    booktitle::String
+    date::Date
+    editors::Names
+    eprint::Eprint
+    id::String
+    in::In
+    fields::Dict{String,String}
+    title::String
+    type::String
+end</code></pre><p>Generic Entry type. If some construction rules are required, it should be done beforehand. Check <code>bibtex.jl</code> as the example of rules implementation for BibTeX format.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.Entry-Tuple{String, Dict{String, String}}" href="#BibInternal.Entry-Tuple{String, Dict{String, String}}"><code>BibInternal.Entry</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia">Entry(id::String, fields::Fields)</code></pre><p>Construct an entry with a unique id and a list of <code>Fields</code>.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.Eprint" href="#BibInternal.Eprint"><code>BibInternal.Eprint</code></a> — <span class="docstring-category">Type</span></header><section><div><pre><code class="language-julia">struct Eprint
+    archive_prefix::String
+    eprint::String
+    primary_class::String
+end</code></pre><p>Store the information related to arXiv eprint format.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.Eprint-Tuple{Dict{String, String}}" href="#BibInternal.Eprint-Tuple{Dict{String, String}}"><code>BibInternal.Eprint</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia">Eprint(fields::Fields)</code></pre><p>Construct the eprint arXiv information based on the entry fields. Handle old and current arXiv format.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.Fields" href="#BibInternal.Fields"><code>BibInternal.Fields</code></a> — <span class="docstring-category">Type</span></header><section><div><pre><code class="language-julia">Fields = Dict{String, String}</code></pre><p>Stores the fields (<code>name =&gt; value</code>) of an entry.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.In" href="#BibInternal.In"><code>BibInternal.In</code></a> — <span class="docstring-category">Type</span></header><section><div><pre><code class="language-julia">struct In
+    address::String
+    chapter::String
+    edition::String
+    institution::String
+    journal::String
+    number::String
+    organization::String
+    pages::String
+    publisher::String
+    school::String
+    series::String
+    volume::String
+end</code></pre><p>Store all the information related to how an entry was published.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.In-Tuple{Dict{String, String}}" href="#BibInternal.In-Tuple{Dict{String, String}}"><code>BibInternal.In</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia">In(fields::Fields)</code></pre><p>Construct the information of how an entry was published based on its fields</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.Name-Tuple{String}" href="#BibInternal.Name-Tuple{String}"><code>BibInternal.Name</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia">Name(str::String)</code></pre><p>Decompose without ambiguities a name as <code>particle</code> (optional) <code>last</code>, <code>junior</code> (optional), <code>first</code> <code>middle</code> (optional) based on BibTeX possible input. As for BibTeX, the decomposition of a name in the form of <code>first</code> <code>last</code> is also possible, but ambiguities can occur.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.arxive_url-Tuple{Dict{String, String}}" href="#BibInternal.arxive_url-Tuple{Dict{String, String}}"><code>BibInternal.arxive_url</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia">arxive_url(fields::Fields)</code></pre><p>Make an arxiv url from an eprint entry. Work with both old and current arxiv BibTeX format.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.check_entry-Tuple{Dict{String, String}}" href="#BibInternal.check_entry-Tuple{Dict{String, String}}"><code>BibInternal.check_entry</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia">check_entry(fields::Fields)</code></pre><p>Check the validity of the fields of a BibTeX entry.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.erase_spaces-Tuple{String}" href="#BibInternal.erase_spaces-Tuple{String}"><code>BibInternal.erase_spaces</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia">erase_spaces(str::String)</code></pre><p>Erase extra spaces, i.e. <code>r&quot;[  ]+&quot;</code>, from <code>str</code> and return a new string.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.get_delete!-Tuple{Dict{String, String}, String}" href="#BibInternal.get_delete!-Tuple{Dict{String, String}, String}"><code>BibInternal.get_delete!</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia">get_delete!(fields::Fields, key::String)</code></pre><p>Get a the value of a field and delete it afterward.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.make_bibtex_entry-Tuple{String, Dict{String, String}}" href="#BibInternal.make_bibtex_entry-Tuple{String, Dict{String, String}}"><code>BibInternal.make_bibtex_entry</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia">make_bibtex_entry(id::String, fields::Fields)</code></pre><p>Make an entry if the entry follows the BibTeX guidelines. Throw an error otherwise.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.names-Tuple{String}" href="#BibInternal.names-Tuple{String}"><code>BibInternal.names</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia">names(str::String)</code></pre><p>Decompose into parts a list of names in BibTeX compatible format. That is names sparated by <code>and</code>.</p></div></section></article><article class="docstring"><header><a class="docstring-binding" id="BibInternal.space-Tuple{Symbol}" href="#BibInternal.space-Tuple{Symbol}"><code>BibInternal.space</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia">space(field::Symbol)</code></pre><p>Return the amount of spaces needed to export entries, for instance to BibTeX format.</p></div></section></article></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Bibliography</a><a class="docs-footer-nextpage" href="../parser/">BibParser »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 16 April 2021 06:33">Friday 16 April 2021</span>. Using Julia version 1.6.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
