@@ -114,7 +114,7 @@ function export_bibtex(e::Entry)
     in_to_bibtex!(e.fields, e.in)
     e.fields["title"] = e.title
 
-    str = "@$(e.type){$(e.id),\n"
+    str = "@$(e.type == "eprint" ? "misc" : e.type){$(e.id),\n"
     for (name, value) in collect(e.fields)
         m = match(r"swp-",name)
         if m === nothing || m.offset > 1
@@ -127,6 +127,7 @@ end
 function export_bibtex(bibliography::DataStructures.OrderedDict{String,Entry})
     str = ""
     for e in values(bibliography)
+        # @info "Test for eprint" e
         str *= export_bibtex(e) * "\n\n"
     end
     return str[1:end - 1]

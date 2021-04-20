@@ -46,6 +46,7 @@ function xnames(
 end
 
 function xin(entry::BibInternal.Entry)
+    # @info "Entry type" entry entry.type
     str = ""
     if entry.type == "article"
         str *= entry.in.journal * ", " * entry.in.volume
@@ -55,7 +56,7 @@ function xin(entry::BibInternal.Entry)
     elseif entry.type == "book"
         str *= entry.in.publisher
         str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
-        str *= ", " * entry.date.year        
+        str *= ", " * entry.date.year
     elseif entry.type == "booklet"
         str *= entry.access.howpublished * ", " * entry.date.year
     elseif entry.type == "eprint"
@@ -72,7 +73,7 @@ function xin(entry::BibInternal.Entry)
         str = "In " * xnames(entry, true) * ", editors, " * entry.booktitle * ", " * entry.in.pages * "."
         str *= " " * entry.in.publisher
         str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
-        str *= ", " * entry.date.year   
+        str *= ", " * entry.date.year
     elseif entry.type == "inproceedings"
         str *= " In " * entry.booktitle
         str *= entry.in.series != "" ? ", " * entry.in.series : ""
@@ -80,7 +81,7 @@ function xin(entry::BibInternal.Entry)
         str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
         str *= ", " * entry.date.year
         str *= entry.in.publisher != "" ? ". $(entry.in.publisher)" : ""
-    elseif entry.type == "manual" 
+    elseif entry.type == "manual"
         str *= entry.in.organization
         str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
         str *= ", " * entry.date.year
@@ -106,7 +107,7 @@ function xin(entry::BibInternal.Entry)
         str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
         str *= ", " * entry.date.year
     elseif entry.type == "unpublished"
-        aux = get(entry.fields, "note", "") 
+        aux = get(entry.fields, "note", "")
         str *= aux != "" != entry.date.year ? aux * ", " : ""
         str *= entry.date.year
     end
@@ -155,6 +156,7 @@ struct Publication
 end
 
 function Publication(entry::BibInternal.Entry)
+    # @info "New Publication for StaticWebPages" entry
     id = entry.id
     type = entry.type
     title = entry.title
@@ -175,6 +177,7 @@ Export a biblography in internal format to the web format of the [StaticWebPages
 function export_web(
     bibliography::DataStructures.OrderedDict{String,BibInternal.Entry}
     )
+    # @show values(bibliography)
     entries = Vector{Publication}()
     for entry in values(bibliography)
         p = Publication(entry)

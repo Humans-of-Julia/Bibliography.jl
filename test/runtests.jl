@@ -1,8 +1,9 @@
 import Bibliography
 using Test
 
-for file in ["test.bib", "ignace_ref.bib", "xampl.bib"]
+for file in ["test.bib"] #, "xampl.bib"] #, "ignace_ref.bib"]
     test_import = Bibliography.import_bibtex("../examples/$file")
+    # @info "test_import" test_import
     Bibliography.export_web(test_import)
     println("Test import\n $(Bibliography.export_bibtex("result.bib", test_import))\n")
 
