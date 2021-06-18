@@ -10,7 +10,7 @@ using Bibliography;
 #       github.com/plk/biblatex/blob/dev/testfiles/19-alphabetic-prefixed.pdf
 #       )
 
-testbib = Bibliography.import_bibtex("examples/test_sort.bib");
+testbib = Bibliography.import_bibtex("../examples/test_sort.bib");
 
 @testset "sort_bibliography! : Errors" begin
     @test_throws ArgumentError sort_bibliography!(testbib,:nnn);
