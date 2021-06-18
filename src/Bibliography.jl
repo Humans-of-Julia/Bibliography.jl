@@ -14,8 +14,10 @@ import DataStructures.OrderedSet
 export export_bibtex, import_bibtex
 export export_web, bibtex_to_web
 export select
+export sort_bibliography!
 
 include("select.jl")
+include("sort_bibliography.jl")
 include("bibtex.jl")
 include("csl.jl")
 include("staticweb.jl")
