@@ -34,3 +34,5 @@ mybib2 = Bibliography.import_bibtex("demo_export.bib")
 
 rm("demo.bib")
 rm("demo_export.bib")
+
+include("test/sort_bibliography.jl")
