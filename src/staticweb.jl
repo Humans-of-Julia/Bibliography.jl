@@ -15,14 +15,29 @@ const type_to_label = Dict{String, String}([
     "unpublished"     => "other"
 ])
 
-function xtitle(entry::T) where T <: BibInternal.Entry
+"""
+    xtitle(entry
+
+Format the title of an `Entry` for web export.
+"""
+function xtitle(entry)
     return :title ∈ fieldnames(typeof(entry)) ? entry.title : get(entry.fields, "title", "")
 end
 
+"""
+    xnames(entry, editors = false; names = :full)
+
+Format the name of an `Entry` for web export.
+
+# Arguments:
+- `entry`: an entry
+- `editors`: `true` if the name describes editors
+- `names`: :full (full names) or :last (last names + first name abbreviation)
+"""
 function xnames(
-    entry::BibInternal.Entry,
-    editors::Bool=false;
-    names::Symbol=:full # Current options: :last, :full
+    entry,
+    editors=false;
+    names=:full # Current options: :last, :full
     )
     # forces the names to be editors' name if the entry are Proceedings
     if !editors && entry.type ∈ ["proceedings"]
@@ -41,12 +56,15 @@ function xnames(
             str *= s.first * " " * s.middle * " " * s.particle * " " * s.last * " " * s.junior
         end
     end
-    # str *= editors ? ", editors" : ""
     return replace(str, r"[\n\r ]+" => " ") # TODO: make it cleaner (is replace still necessary)
 end
 
-function xin(entry::BibInternal.Entry)
-    # @info "Entry type" entry entry.type
+"""
+    xin(entry)
+
+Format the appears-`in` field of an `Entry` for web export.
+"""
+function xin(entry)
     str = ""
     if entry.type == "article"
         str *= entry.in.journal * ", " * entry.in.volume
@@ -115,11 +133,19 @@ function xin(entry::BibInternal.Entry)
     return str
 end
 
-function xyear(entry::BibInternal.Entry)
-    return entry.date.year
-end
+"""
+    xyear(entry)
 
-function xlink(entry::BibInternal.Entry)
+Format the year of an `Entry` for web export.
+"""
+xyear(entry) = entry.date.year
+
+"""
+    xlink(entry)
+
+Format the download link of an `Entry` for web export.
+"""
+function xlink(entry)
     if entry.access.doi != ""
         return "https://doi.org/" * entry.access.doi
     elseif entry.access.url != ""
@@ -128,20 +154,36 @@ function xlink(entry::BibInternal.Entry)
     return ""
 end
 
-function xfile(entry::BibInternal.Entry)
-    return "files/$(entry.id).pdf"
-end
+"""
+    xfile(entry)
 
-function xcite(entry::BibInternal.Entry)
-    string(entry)
-end
+Format the downloadable path of an `Entry` file for web export.
+"""
+xfile(entry) = "files/$(entry.id).pdf"
 
-function xlabels(entry::BibInternal.Entry)
+"""
+    xcite(entry)
+
+Format the BibTeX cite output of an `Entry` for web export.
+"""
+xcite(entry) = string(entry)
+
+"""
+    xlabels(entry)
+
+Format the labels of an `Entry` for web export.
+"""
+function xlabels(entry)
     str = get(entry.fields, "swp-labels", "")
     str = str == "" ? get(entry.fields, "labels", "") : str
     return str == "" ? [entry.type] : split(str, r"[\n\r ]*,[\n\r ]*")
 end
 
+"""
+    Publication
+
+A structure to store all the information necessary to web export.
+"""
 struct Publication
     id::String
     type::String
@@ -155,8 +197,12 @@ struct Publication
     labels::Vector{String}
 end
 
-function Publication(entry::BibInternal.Entry)
-    # @info "New Publication for StaticWebPages" entry
+"""
+    Publication(entry)
+
+Construct a `Publication` (compatible with web export) from an `Entry`.
+"""
+function Publication(entry)
     id = entry.id
     type = entry.type
     title = entry.title
@@ -172,12 +218,9 @@ end
 
 """
     export_web(bibliography::DataStructures.OrderedDict{String,BibInternal.Entry})
-Export a biblography in internal format to the web format of the [StaticWebPages.jl](https://github.com/Azzaare/StaticWebPages.jl) pakcage.
+Export a biblography in internal format to the web format of the [StaticWebPages.jl](https://github.com/Humans-of-Julia/StaticWebPages.jl) pakcage. Also used by [DocumenterCitations.jl](https://github.com/ali-ramadhan/DocumenterCitations.jl).
 """
-function export_web(
-    bibliography::DataStructures.OrderedDict{String,BibInternal.Entry}
-    )
-    # @show values(bibliography)
+function export_web(bibliography)
     entries = Vector{Publication}()
     for entry in values(bibliography)
         p = Publication(entry)

@@ -23,12 +23,10 @@ include("csl.jl")
 include("staticweb.jl")
 
 """
-    export_bibtex(e::Entry)
-    export_bibtex(bibliography::DataStructures.OrderedDict{String,Entry})
-    export_bibtex(target::String, bibliography::DataStructures.OrderedDict{String,Entry})
-Export an entry or a bibliography to BibTeX format.
+    export_bibtex(target, bibliography)
+Export a bibliography to BibTeX format.
 """
-function export_bibtex(target::String, bibliography::DataStructures.OrderedDict{String,Entry})
+function export_bibtex(target, bibliography)
     data = export_bibtex(bibliography)
     if target != ""
         f = open(target, "w")
@@ -42,8 +40,6 @@ end
     bibtex_to_web(source::String)
 Convert a BibTeX file to a web compatible format, specifically for the [StaticWebPages.jl](https://github.com/Azzaare/StaticWebPages.jl) package.
 """
-function bibtex_to_web(source::String)
-    export_web(import_bibtex(source))
-end
+bibtex_to_web(source) = export_web(import_bibtex(source))
 
 end # module

@@ -28,6 +28,7 @@ testdata = """@inproceedings{demo2020proceedings,
 }"""
 
 write("demo.bib",testdata)
+Bibliography.import_bibtex(testdata)
 mybib = Bibliography.import_bibtex("demo.bib")
 Bibliography.export_bibtex("demo_export.bib",mybib)
 mybib2 = Bibliography.import_bibtex("demo_export.bib")

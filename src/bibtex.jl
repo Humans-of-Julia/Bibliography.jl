@@ -1,37 +1,41 @@
 """
-    import_bibtex(file::String)
-Import a BibTeX file and convert it to the internal bibliography format.
+    import_bibtex(input)
+Import a BibTeX file or parse a BibTeX string and convert it to the internal bibliography format.
 """
-function import_bibtex(file::String)
-    return BibParser.parse_file(file)
+function import_bibtex(input)
+    return isfile(input) ? BibParser.parse_file(input) : BibParser.parse_entry(input)
 end
 
-function int_to_spaces(n::Int)
-    str = ""
-    for i in 1:n
-        str *= " "
-    end
-    return str
-end
+"""
+    int_to_spaces(n)
 
-# Dictionnary to handle spaces while exporting BibTeX
+Make a string of `n` spaces.
+"""
+int_to_spaces(n) = repeat(" ", n)
+
 const spaces = Dict{String,String}(map(
     s -> (string(s) => int_to_spaces(BibInternal.space(s))),
     BibInternal.fields)
 )
 
-# Function to write required fields
-function field_to_bibtex(
-    key::String,
-    value::String
-    )
+"""
+    field_to_bibtex(key, value)
+
+Convert an entry field to BibTeX format.
+"""
+function field_to_bibtex(key, value)
     space = get(spaces, key, int_to_spaces(BibInternal.space(Symbol(key))))
     swp = length(key) > 3 && key[1:3] == "swp"
     o,f = isnothing(match(r"@", value)) ? ('{','}') : ('"','"')
     return value == "" || swp ? "" : " $key$space = $o$value$f,\n"
 end
 
-function name_to_string(name::BibInternal.Name)
+"""
+    name_to_string(name::BibInternal.Name)
+
+Convert a name in an `Entry` to a string.
+"""
+function name_to_string(name)
     str = "$(name.particle)"
     if str != "" != name.last
         str *= " "
@@ -47,7 +51,12 @@ function name_to_string(name::BibInternal.Name)
     return str
 end
 
-function names_to_strings(names::BibInternal.Names)
+"""
+    names_to_strings(names)
+
+Convert a collection of names to a BibTeX string.
+"""
+function names_to_strings(names)
     if length(names) ≥ 1
         str = name_to_string(names[1])
     end
@@ -59,51 +68,64 @@ function names_to_strings(names::BibInternal.Names)
     return str
 end
 
-function access_to_bibtex!(
-    fields::BibInternal.Fields,
-    a::BibInternal.Access
-    )
+"""
+    access_to_bibtex!(fields, a)
+
+Transform the how-to-`access` field to a BibTeX string.
+"""
+function access_to_bibtex!(fields, a)
     fields["doi"] = a.doi
     fields["howpublished"] = a.howpublished
     fields["url"] = a.url
 end
 
-function date_to_bibtex!(
-    fields::BibInternal.Fields,
-    d::BibInternal.Date
-    )
-    fields["day"] = d.day
-    fields["month"] = d.month
-    fields["year"] = d.year
+"""
+    date_to_bibtex!(fields, date)
+
+Convert a date to a BibTeX string.
+"""
+function date_to_bibtex!(fields, date)
+    fields["day"] = date.day
+    fields["month"] = date.month
+    fields["year"] = date.year
 end
 
-function eprint_to_bibtex!(
-    fields::BibInternal.Fields,
-    e::BibInternal.Eprint
-    )
-    fields["archivePrefix"] = e.archive_prefix
-    fields["eprint"] = e.eprint
-    fields["primaryClass"] = e.primary_class
+"""
+    eprint_to_bibtex!(fields, eprint)
+
+Convert eprint information to a BibTeX string.
+"""
+function eprint_to_bibtex!(fields, ep)
+    fields["archivePrefix"] = ep.archive_prefix
+    fields["eprint"] = ep.eprint
+    fields["primaryClass"] = ep.primary_class
 end
 
-function in_to_bibtex!(
-    fields::BibInternal.Fields,
-    i::BibInternal.In
-    )
-    fields["address"] = i.address
-    fields["chapter"] = i.chapter
-    fields["edition"] = i.edition
-    fields["institution"] = i.institution
-    fields["journal"] = i.journal
-    fields["number"] = i.number
-    fields["organization"] = i.organization
-    fields["pages"] = i.pages
-    fields["publisher"] = i.publisher
-    fields["school"] = i.school
-    fields["series"] = i.series
-    fields["volume"] = i.volume
+"""
+    in_to_bibtex!(fields::BibInternal.Fields, i::BibInternal.In)
+
+Convert the "published `in`" information to a BibTeX string.
+"""
+function in_to_bibtex!(fields, in_)
+    fields["address"] = in_.address
+    fields["chapter"] = in_.chapter
+    fields["edition"] = in_.edition
+    fields["institution"] = in_.institution
+    fields["journal"] = in_.journal
+    fields["number"] = in_.number
+    fields["organization"] = in_.organization
+    fields["pages"] = in_.pages
+    fields["publisher"] = in_.publisher
+    fields["school"] = in_.school
+    fields["series"] = in_.series
+    fields["volume"] = in_.volume
 end
 
+"""
+    export_bibtex(e::Entry)
+
+Export an `Entry` to a BibTeX string.
+"""
 function export_bibtex(e::Entry)
     access_to_bibtex!(e.fields, e.access)
     e.fields["author"] = names_to_strings(e.authors)
@@ -124,10 +146,14 @@ function export_bibtex(e::Entry)
     return str[1:end - 2] * "\n}"
 end
 
-function export_bibtex(bibliography::DataStructures.OrderedDict{String,Entry})
+"""
+    export_bibtex(bibliography)
+
+Export a bibliography to a BibTeX string.
+"""
+function export_bibtex(bibliography)
     str = ""
     for e in values(bibliography)
-        # @info "Test for eprint" e
         str *= export_bibtex(e) * "\n\n"
     end
     return str[1:end - 1]
