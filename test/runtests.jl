@@ -37,3 +37,4 @@ rm("demo.bib")
 rm("demo_export.bib")
 
 include("sort_bibliography.jl")
+include("staticweb.jl")
