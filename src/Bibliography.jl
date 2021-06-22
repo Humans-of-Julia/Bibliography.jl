@@ -38,7 +38,7 @@ end
 
 """
     bibtex_to_web(source::String)
-Convert a BibTeX file to a web compatible format, specifically for the [StaticWebPages.jl](https://github.com/Azzaare/StaticWebPages.jl) package.
+Convert a BibTeX file to a web compatible format, specifically for the [StaticWebPages.jl](https://github.com/Humans-of-Julia/StaticWebPages.jl) package.
 """
 bibtex_to_web(source) = export_web(import_bibtex(source))
 
