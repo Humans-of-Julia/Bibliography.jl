@@ -11,7 +11,7 @@ See also [`sort_bibliography!`](@ref).
 const sorting_rules = Dict{Symbol, Vector{Symbol}}(
     :nty  => [:authors;:editors;:title;:date],
     :nyt  => [:authors;:editors;:date;:title]
-);
+)
 
 """
     sort_bibliography!(
@@ -42,13 +42,13 @@ function sort_bibliography!(
 #       this needs one additional type check and a check for allowed symbols in
 #       vector (check against fieldnames(Bibliography.BibInternal.Entry) )
     if sorting_rule == :key
-        sort!(bibliography);
+        sort!(bibliography)
     elseif sorting_rule in keys(sorting_rules)
         sort!(bibliography,
               lt = (a,b) -> recursive_isless(a,b,sorting_rules[sorting_rule]),
-              by = x -> bibliography[x]);
+              by = x -> bibliography[x])
     else
-        throw(ArgumentError("Unsupported sorting order!"));
+        throw(ArgumentError("Unsupported sorting order!"))
     end
 end
 
