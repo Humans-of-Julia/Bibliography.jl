@@ -44,18 +44,17 @@ function xnames(
         return xnames(entry, true)
     end
     entry_names = editors ? entry.editors : entry.authors
-    str = ""
 
-    start = true
-    for s in entry_names
-        str *= start ? "" : ", "
-        start = false
-        if names == :last
-            str *= s.particle * " " * s.last * " " * s.junior
-        else
-            str *= s.first * " " * s.middle * " " * s.particle * " " * s.last * " " * s.junior
-        end
+    if names == :last
+        parts = map(s -> [ s.particle, s.last, s.junior ], entry_names)
+    else
+        parts = map(s -> [ s.first, s.middle, s.particle, s.last, s.junior ], entry_names)
     end
+
+    entry_names = map(parts) do s
+        return join(filter(!isempty, s), " ")
+    end
+    str = join(entry_names, ", ")
     return replace(str, r"[\n\r ]+" => " ") # TODO: make it cleaner (is replace still necessary)
 end
 
