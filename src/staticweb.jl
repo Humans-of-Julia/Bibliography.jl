@@ -7,7 +7,7 @@ const type_to_label = Dict{String, String}([
     "incollection"    => "book section",
     "inproceedings"   => "conference",
     "manual"          => "manual",
-    "masterthesis"    => "master thesis",
+    "mastersthesis"   => "master's thesis",
     "misc"            => "other",
     "phdthesis"       => "doctoral thesis",
     "proceedings"     => "proceedings",
@@ -102,8 +102,8 @@ function xin(entry)
         str *= entry.in.organization
         str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
         str *= ", " * entry.date.year
-    elseif entry.type ∈ ["masterthesis", "phdthesis"]
-        str *= entry.type == "masterthesis" ? "Master's" : "PhD"
+    elseif entry.type ∈ ["mastersthesis", "phdthesis"]
+        str *= entry.type == "mastersthesis" ? "Master's" : "PhD"
         str *= " thesis, " * entry.in.school
         str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
         str *= ", " * entry.date.year

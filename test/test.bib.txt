@@ -49,7 +49,7 @@ key: CitekeyManual
 key: CitekeyMastersthesis
   title: 'Spin structure of the nucleon in the asymptotic limit'
   names: 'Jian Tang'
-     in: ''
+     in: 'Master's thesis, Massachusetts Institute of Technology, Cambridge, MA, 1996.'
    year: '1996'
    link: ''
    file: 'files/CitekeyMastersthesis.pdf'
