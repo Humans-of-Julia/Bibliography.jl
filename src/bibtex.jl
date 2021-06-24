@@ -57,15 +57,7 @@ end
 Convert a collection of names to a BibTeX string.
 """
 function names_to_strings(names)
-    if length(names) ≥ 1
-        str = name_to_string(names[1])
-    end
-    if length(names) > 1
-        for name in names[2:end]
-            str *= " and " * name_to_string(name)
-        end
-    end
-    return str
+    return join(map(name_to_string, names), " and ")
 end
 
 """
