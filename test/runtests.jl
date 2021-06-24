@@ -1,16 +1,21 @@
 import Bibliography
 using Test
+using ReferenceTests
 
 for file in ["test.bib"] #, "xampl.bib"] #, "ignace_ref.bib"]
     test_import = Bibliography.import_bibtex("../examples/$file")
-    # @info "test_import" test_import
-    Bibliography.export_web(test_import)
-    println("Test import\n $(Bibliography.export_bibtex("result.bib", test_import))\n")
+    result = Bibliography.export_web(test_import)
+
+    # test re-exporting to bib file
+    result = Bibliography.export_bibtex("result.bib", test_import)
+    @test_reference "$file" result
 
     if file == "test.bib"
+        # test re-exporting a selection to bib file
         selection = ["CitekeyArticle", "CitekeyBook"]
         test_select = Bibliography.select(test_import, selection)
-        println("Test select\n $(Bibliography.export_bibtex("result.bib", test_select))\n")
+        result = Bibliography.export_bibtex("result.bib", test_select)
+        @test_reference "test-selection.bib" result
     end
 
     rm("result.bib")
