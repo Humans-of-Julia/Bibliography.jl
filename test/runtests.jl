@@ -8,7 +8,7 @@ for file in ["test.bib"] #, "xampl.bib"] #, "ignace_ref.bib"]
 
     # test re-exporting to bib file
     result = Bibliography.export_bibtex("result.bib", test_import)
-    @test_reference "$file" result
+    Sys.WORD_SIZE == 64 && @test_reference "$file" result
 
     if file == "test.bib"
         # test re-exporting a selection to bib file
