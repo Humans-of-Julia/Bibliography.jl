@@ -65,17 +65,20 @@ Format the appears-`in` field of an `Entry` for web export.
 """
 function xin(entry)
     str = ""
+    temp_last = false
+    temp = []
     if entry.type == "article"
-        str *= entry.in.journal * ", " * entry.in.volume
-        str *= entry.in.number != "" ? "($(entry.in.number))" : ""
-        str *= entry.in.pages != "" ? ", $(entry.in.pages)" : ""
-        str *= ", " * entry.date.year
+        temp = [ entry.in.journal ,
+                 entry.in.volume * (entry.in.number != "" ? "($(entry.in.number))" : "") ,
+                 entry.in.pages ,
+                 entry.date.year ]
     elseif entry.type == "book"
-        str *= entry.in.publisher
-        str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
-        str *= ", " * entry.date.year
+        temp = [ entry.in.publisher ,
+                 entry.in.address ,
+                 entry.date.year ]
     elseif entry.type == "booklet"
-        str *= entry.access.howpublished * ", " * entry.date.year
+        temp = [ entry.access.howpublished ,
+                 entry.date.year ]
     elseif entry.type == "eprint"
         if entry.eprint.archive_prefix == ""
             str *= entry.eprint.eprint
@@ -83,50 +86,63 @@ function xin(entry)
             str *= "$(entry.eprint.archive_prefix):$(entry.eprint.eprint) [$(entry.eprint.primary_class)]"
         end
     elseif entry.type == "inbook"
-        aux = entry.in.chapter == "" ? entry.in.pages : entry.in.chapter
-        str *= entry.booktitle * ", " * aux * ", " * entry.in.publisher
-        str *= entry.in.address != "" ? ", " * entry.in.address : ""
+        temp = [ entry.booktitle ,
+                 entry.in.chapter == "" ? entry.in.pages : entry.in.chapter ,
+                 entry.in.publisher ,
+                 entry.in.address ]
     elseif entry.type == "incollection"
-        str = "In " * xnames(entry, true) * ", editors, " * entry.booktitle * ", " * entry.in.pages * "."
-        str *= " " * entry.in.publisher
-        str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
-        str *= ", " * entry.date.year
+        # TODO: check if this new and the old format is/was correct, that "editors" seems out of place?
+        temp = [ "In " * xnames(entry, true) ,
+                 "editors" ,
+                 entry.booktitle ,
+                 entry.in.pages * ". " * entry.in.publisher , # TODO: conditional ". " if one of the strings is empty?
+                 entry.in.address ,
+                 entry.date.year ]
     elseif entry.type == "inproceedings"
-        str *= " In " * entry.booktitle
-        str *= entry.in.series != "" ? ", " * entry.in.series : ""
-        str *= entry.in.pages != "" ? ", $(entry.in.pages)" : ""
-        str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
-        str *= ", " * entry.date.year
-        str *= entry.in.publisher != "" ? ". $(entry.in.publisher)" : ""
+        temp_last = entry.in.publisher != ""
+        temp = [ " In " * entry.booktitle ,
+                 entry.in.series ,
+                 entry.in.pages ,
+                 entry.in.address ,
+                 entry.date.year ,
+                 entry.in.publisher ]
     elseif entry.type == "manual"
-        str *= entry.in.organization
-        str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
-        str *= ", " * entry.date.year
+        temp = [ entry.in.organization ,
+                 entry.in.address ,
+                 entry.date.year ]
     elseif entry.type ∈ ["mastersthesis", "phdthesis"]
-        str *= entry.type == "mastersthesis" ? "Master's" : "PhD"
-        str *= " thesis, " * entry.in.school
-        str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
-        str *= ", " * entry.date.year
+        temp = [ (entry.type == "mastersthesis" ? "Master's" : "PhD") * " thesis" ,
+                 entry.in.school ,
+                 entry.in.address ,
+                 entry.date.year ]
     elseif entry.type == "misc"
-        aux = entry.access.howpublished != "" != entry.date.year ? ", " : ""
-        str *= entry.access.howpublished * aux * entry.date.year
-        str *= aux != "" && get(entry.fields, "note", "") != "" ? ". " : ""
-        str *= get(entry.fields, "note", "")
+        temp_last = get(entry.fields, "note", "") != "" &&
+                    entry.access.howpublished != "" &&
+                    entry.date.year != ""
+        temp = [ entry.access.howpublished
+                 entry.date.year
+                 get(entry.fields, "note", "") ]
     elseif entry.type == "proceedings"
-        str *= entry.in.volume != "" ? "Volume " * entry.in.volume * " of " : ""
-        str *= entry.in.series
-        str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
-        str *= ", " * entry.date.year
-        str *= entry.in.publisher != "" ? ". $(entry.in.address)" : ""
+        temp_last = entry.in.publisher != ""
+        temp = [ (entry.in.volume != "" ? "Volume $(entry.in.volume) of " : "") * entry.in.series ,
+                 entry.in.address ,
+                 entry.date.year ,
+                 entry.in.publisher ]
+        # TODO: check if this old line here was a hidden bug
+        # str *= entry.in.publisher != "" ? ". $(entry.in.address)" : ""
     elseif entry.type == "techreport"
-        str *= entry.in.number != "" ? "Technical Report " * entry.in.number * ", " : ""
-        str *= entry.in.institution
-        str *= entry.in.address != "" ? ", $(entry.in.address)" : ""
-        str *= ", " * entry.date.year
+        temp = [ entry.in.number != "" ? "Technical Report $(entry.in.number)" : "" ,
+                 entry.in.institution ,
+                 entry.in.address ,
+                 entry.date.year ]
     elseif entry.type == "unpublished"
-        aux = get(entry.fields, "note", "")
-        str *= aux != "" != entry.date.year ? aux * ", " : ""
-        str *= entry.date.year
+        temp = [ get(entry.fields, "note", "") ,
+                 entry.date.year ]
+    end
+    if temp_last
+        str *= join( filter!(!isempty, temp) , ", ", ". " )
+    else
+        str *= join( filter!(!isempty, temp) , ", " )
     end
     str *= str == "" ? "" : "."
     return str
