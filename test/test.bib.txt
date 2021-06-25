@@ -89,7 +89,7 @@ key: CitekeyPhdthesis
 key: CitekeyProceedings
   title: 'Proceedings of the 17th International Conference on Computation and Natural Computation, Fontainebleau, France'
   names: 'Susan Stepney, Sergey Verlan'
-     in: 'Volume 10867 of Lecture Notes in Computer Science, Cham, Switzerland, 2018. Cham, Switzerland.'
+     in: 'Volume 10867 of Lecture Notes in Computer Science, Cham, Switzerland, 2018. Springer.'
    year: '2018'
    link: ''
    file: 'files/CitekeyProceedings.pdf'
