@@ -30,13 +30,29 @@ key: CitekeyBooklet
    link: ''
    file: 'files/CitekeyBooklet.pdf'
 
-key: 
-  title: 'Pluto: The 'Other' Red Planet'
-  names: 'NASA'
-     in: '\url{https://www.nasa.gov/nh/pluto-the-other-red-planet}, 2015. Accessed: 2018-12-06.'
-   year: '2015'
+key: CitekeyInbook
+  title: 'Photosynthesis'
+  names: 'Lisa A. Urry, Michael L. Cain, Steven A. Wasserman, Peter V. Minorsky, Jane B. Reece'
+     in: 'Campbell Biology, 187--221, Pearson, New York, NY.'
+   year: '2016'
    link: ''
-   file: 'files/.pdf'
+   file: 'files/CitekeyInbook.pdf'
+
+key: CitekeyIncollection
+  title: 'Flow Cytometry: The Glass Is Half Full'
+  names: 'Howard M. Shapiro'
+     in: 'In Teresa S. Hawley, Robert G. Hawley, editors, Flow Cytometry Protocols, 1--10. Springer, New York, NY, 2018.'
+   year: '2018'
+   link: ''
+   file: 'files/CitekeyIncollection.pdf'
+
+key: CitekeyInproceedings
+  title: 'Studying mobile context-aware social services in the wild'
+  names: 'Paul Holleis, Matthias Wagner, Johan Koolwaaij'
+     in: ' In Proc. of the 6th Nordic Conf. on Human-Computer Interaction, NordiCHI, 207--216, New York, NY, 2010. ACM.'
+   year: '2010'
+   link: ''
+   file: 'files/CitekeyInproceedings.pdf'
 
 key: CitekeyManual
   title: '{R}: A Language and Environment for Statistical Computing'
@@ -53,6 +69,14 @@ key: CitekeyMastersthesis
    year: '1996'
    link: ''
    file: 'files/CitekeyMastersthesis.pdf'
+
+key: CitekeyMisc
+  title: 'Pluto: The 'Other' Red Planet'
+  names: 'NASA'
+     in: '\url{https://www.nasa.gov/nh/pluto-the-other-red-planet}, 2015. Accessed: 2018-12-06.'
+   year: '2015'
+   link: ''
+   file: 'files/CitekeyMisc.pdf'
 
 key: CitekeyPhdthesis
   title: 'Relaxation Effects for Coupled Nuclear Spins'
