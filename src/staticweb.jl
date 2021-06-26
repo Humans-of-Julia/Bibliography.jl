@@ -91,10 +91,10 @@ function xin(entry)
                  entry.in.publisher ,
                  entry.in.address ]
     elseif entry.type == "incollection"
-        # TODO: check if this new and the old format is/was correct, that "editors" seems out of place?
-        temp = [ "In " * xnames(entry, true) ,
+      # TODO: check if this new or the old format is/was correct, that "editors" seems out of place (and the title was switched with the names)?
+        temp = [ "In $(entry.booktitle)" ,
                  "editors" ,
-                 entry.booktitle ,
+                 xnames(entry, true) ,
                  entry.in.pages * ". " * entry.in.publisher , # TODO: conditional ". " if one of the strings is empty?
                  entry.in.address ,
                  entry.date.year ]

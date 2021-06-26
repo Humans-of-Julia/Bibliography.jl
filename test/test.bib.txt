@@ -41,7 +41,7 @@ key: CitekeyInbook
 key: CitekeyIncollection
   title: 'Flow Cytometry: The Glass Is Half Full'
   names: 'Howard M. Shapiro'
-     in: 'In Teresa S. Hawley, Robert G. Hawley, editors, Flow Cytometry Protocols, 1--10. Springer, New York, NY, 2018.'
+     in: 'In Flow Cytometry Protocols, editors, Teresa S. Hawley, Robert G. Hawley, 1--10. Springer, New York, NY, 2018.'
    year: '2018'
    link: ''
    file: 'files/CitekeyIncollection.pdf'
