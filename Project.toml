@@ -1,7 +1,7 @@
 name = "Bibliography"
 uuid = "f1be7e48-bf82-45af-a471-ae754a193061"
 authors = ["azzaare <jf@baffier.fr>"]
-version = "0.2.12"
+version = "0.2.13"
 
 [deps]
 BibInternal = "2027ae74-3657-4b95-ae00-e2f7d55c3e64"
@@ -12,4 +12,4 @@ DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
 BibInternal = "0.3"
 BibParser = "0.1"
 DataStructures = "0.18"
-julia = "1.4, 1.5, 1.6"
+julia = "1.4, 1.5, 1.6, 1.7"
