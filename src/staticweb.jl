@@ -21,7 +21,7 @@ const type_to_label = Dict{String, String}([
 Format the title of an `Entry` for web export.
 """
 function xtitle(entry)
-    return :title ∈ fieldnames(typeof(entry)) ? entry.title : get(entry.fields, "title", "")
+    return isdefined(entry, :title) ? entry.title : get(entry.fields, "title", "")
 end
 
 """
@@ -80,14 +80,14 @@ function xin(entry)
         temp = [ entry.access.howpublished ,
                  entry.date.year ]
     elseif entry.type == "eprint"
-        if entry.eprint.archive_prefix == ""
+        if isempty(entry.eprint.archive_prefix)
             str *= entry.eprint.eprint
         else
             str *= "$(entry.eprint.archive_prefix):$(entry.eprint.eprint) [$(entry.eprint.primary_class)]"
         end
     elseif entry.type == "inbook"
         temp = [ entry.booktitle ,
-                 entry.in.chapter == "" ? entry.in.pages : entry.in.chapter ,
+                 isempty(entry.in.chapter) ? entry.in.pages : entry.in.chapter ,
                  entry.in.publisher ,
                  entry.in.address ]
     elseif entry.type == "incollection"
@@ -144,7 +144,9 @@ function xin(entry)
     else
         str *= join( filter!(!isempty, temp) , ", " )
     end
-    str *= str == "" ? "" : "."
+    if !isempty(str)
+        str *= "."
+    end
     return str
 end
 
@@ -190,8 +192,13 @@ Format the labels of an `Entry` for web export.
 """
 function xlabels(entry)
     str = get(entry.fields, "swp-labels", "")
-    str = str == "" ? get(entry.fields, "labels", "") : str
-    return str == "" ? [entry.type] : split(str, r"[\n\r ]*,[\n\r ]*")
+    if isempty(str)
+        str = get(entry.fields, "labels", "")
+    end
+    if isempty(str)
+        return [entry.type]
+    end
+    return split(str, r"[\n\r ]*,[\n\r ]*")
 end
 
 """
