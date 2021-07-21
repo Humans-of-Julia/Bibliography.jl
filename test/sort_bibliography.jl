@@ -52,7 +52,6 @@ result = ["2007JJbAbe"
     @test testbib.keys == result
 end
 
-
 result = ["2007JJbAbe"
           "2007JJaAbe"
           "2018DJaMae"
@@ -65,6 +64,22 @@ result = ["2007JJbAbe"
           "1998BBbA2a"
           ]
 @testset "sort_bibliography! : Ordering: :nty" begin
+    sort_bibliography!( testbib , :nty )
+    @test testbib.keys == result
+end
+
+result = ["2007JJbAbe"
+          "2007JJaAbe"
+          "2018DJaMae"
+          "2018DJaMad"
+          "2011JJBcAaa"
+          "2010JJBaAaa"
+          "2010JJBbAaa"
+          "SaA3a2010"
+          "1998BBaA1a"
+          "1998BBbA2a"
+          ]
+@testset "sort_bibliography! : Ordering: :y" begin
     sort_bibliography!( testbib , :nty )
     @test testbib.keys == result
 end
