@@ -9,8 +9,8 @@ Select a part of a bibliography based on a given selection set of keys. If compl
 function select(
     bibliography::DataStructures.OrderedDict{String,Entry},
     selection::Vector{String};
-    complementary::Bool = false
-    )
+    complementary::Bool=false,
+)
     selected_bib = DataStructures.OrderedDict{String,Entry}()
     old_keys = keys(bibliography)
     new_keys = complementary ? setdiff(old_keys, selection) : intersect(old_keys, selection)

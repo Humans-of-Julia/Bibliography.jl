@@ -1,4 +1,4 @@
-import Bibliography
+using Bibliography
 using Test
 using ReferenceTests
 
@@ -32,10 +32,10 @@ testdata = """@inproceedings{demo2020proceedings,
  title         = {Demo Title}
 }"""
 
-write("demo.bib",testdata)
+write("demo.bib", testdata)
 Bibliography.import_bibtex(testdata)
 mybib = Bibliography.import_bibtex("demo.bib")
-Bibliography.export_bibtex("demo_export.bib",mybib)
+Bibliography.export_bibtex("demo_export.bib", mybib)
 mybib2 = Bibliography.import_bibtex("demo_export.bib")
 
 rm("demo.bib")

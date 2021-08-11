@@ -13,9 +13,8 @@ Make a string of `n` spaces.
 """
 int_to_spaces(n) = repeat(" ", n)
 
-const spaces = Dict{String,String}(map(
-    s -> (string(s) => int_to_spaces(BibInternal.space(s))),
-    BibInternal.fields)
+const spaces = Dict{String,String}(
+    map(s -> (string(s) => int_to_spaces(BibInternal.space(s))), BibInternal.fields)
 )
 
 """
@@ -26,7 +25,7 @@ Convert an entry field to BibTeX format.
 function field_to_bibtex(key, value)
     space = get(spaces, key, int_to_spaces(BibInternal.space(Symbol(key))))
     swp = length(key) > 3 && key[1:3] == "swp"
-    o,f = isnothing(match(r"@", value)) ? ('{','}') : ('"','"')
+    o, f = isnothing(match(r"@", value)) ? ('{', '}') : ('"', '"')
     return value == "" || swp ? "" : " $key$space = $o$value$f,\n"
 end
 
@@ -68,7 +67,7 @@ Transform the how-to-`access` field to a BibTeX string.
 function access_to_bibtex!(fields, a)
     fields["doi"] = a.doi
     fields["howpublished"] = a.howpublished
-    fields["url"] = a.url
+    return fields["url"] = a.url
 end
 
 """
@@ -79,7 +78,7 @@ Convert a date to a BibTeX string.
 function date_to_bibtex!(fields, date)
     fields["day"] = date.day
     fields["month"] = date.month
-    fields["year"] = date.year
+    return fields["year"] = date.year
 end
 
 """
@@ -90,7 +89,7 @@ Convert eprint information to a BibTeX string.
 function eprint_to_bibtex!(fields, ep)
     fields["archivePrefix"] = ep.archive_prefix
     fields["eprint"] = ep.eprint
-    fields["primaryClass"] = ep.primary_class
+    return fields["primaryClass"] = ep.primary_class
 end
 
 """
@@ -110,7 +109,7 @@ function in_to_bibtex!(fields, in_)
     fields["publisher"] = in_.publisher
     fields["school"] = in_.school
     fields["series"] = in_.series
-    fields["volume"] = in_.volume
+    return fields["volume"] = in_.volume
 end
 
 """
@@ -130,12 +129,12 @@ function export_bibtex(e::Entry)
 
     str = "@$(e.type == "eprint" ? "misc" : e.type){$(e.id),\n"
     for (name, value) in collect(e.fields)
-        m = match(r"swp-",name)
+        m = match(r"swp-", name)
         if m === nothing || m.offset > 1
             str *= value == "" ? "" : field_to_bibtex(name, value)
         end
     end
-    return str[1:end - 2] * "\n}"
+    return str[1:(end - 2)] * "\n}"
 end
 
 """
@@ -148,5 +147,5 @@ function export_bibtex(bibliography)
     for e in values(bibliography)
         str *= export_bibtex(e) * "\n\n"
     end
-    return str[1:end - 1]
+    return str[1:(end - 1)]
 end
