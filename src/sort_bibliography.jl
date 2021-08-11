@@ -68,7 +68,7 @@ argument is a tuple consisting of symbols denoting the fields of the data type
 
 The `depth` argument is purely for iterating/recursive purposes.
 """
-function recursive_isless(a::Entry, b::Entry, fields::Vector{Symbol}; depth::Int=1)::Bool
+function recursive_isless(a::Entry, b::Entry, fields::Vector{Symbol}, depth::Int=1)::Bool
     depth > length(fields) && return false
     a_field = getfield(a, fields[depth])
     b_field = getfield(b, fields[depth])
