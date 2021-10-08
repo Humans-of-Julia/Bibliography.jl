@@ -5,13 +5,15 @@ import BibInternal
 import BibInternal: AbstractEntry, Entry
 
 # BibParser
-import BibParser, BibParser.BibTeX
+import BibParser
+import BibParser: BibTeX, CFF
 
 # Others
 import DataStructures
 import DataStructures.OrderedSet
 
 export export_bibtex, import_bibtex
+export export_cff, import_cff
 export export_web, bibtex_to_web
 export select
 export sort_bibliography!
@@ -19,6 +21,7 @@ export sort_bibliography!
 include("select.jl")
 include("sort_bibliography.jl")
 include("bibtex.jl")
+include("cff.jl")
 include("csl.jl")
 include("staticweb.jl")
 
