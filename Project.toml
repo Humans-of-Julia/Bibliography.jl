@@ -11,7 +11,7 @@ Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 YAML = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
 
 [compat]
-BibInternal = "0.3.2"
+BibInternal = "0.3.3"
 BibParser = "0.2.1"
 DataStructures = "0.18"
 YAML = "0.4"
