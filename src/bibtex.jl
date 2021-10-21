@@ -1,9 +1,10 @@
 """
     import_bibtex(input)
 Import a BibTeX file or parse a BibTeX string and convert it to the internal bibliography format.
+The `check` keyword argument can be set to `:none` (or `nothing`), `:warn`, or `:error` to raise appropriate logs.
 """
-function import_bibtex(input)
-    return isfile(input) ? BibParser.parse_file(input) : BibParser.parse_entry(input)
+function import_bibtex(input; check = :error)
+    return isfile(input) ? BibParser.parse_file(input; check) : BibParser.parse_entry(input; check)
 end
 
 """
