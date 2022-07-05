@@ -228,6 +228,7 @@ struct Publication
     link::String
     file::String
     cite::String
+    abstract::String
     labels::Vector{String}
 end
 
@@ -246,8 +247,9 @@ function Publication(entry)
     link = xlink(entry)
     file = xfile(entry)
     cite = export_bibtex(entry)
+    abstract = get(entry.fields, "abstract", "")
     labels = xlabels(entry)
-    return Publication(id, type, title, names, in_, year, link, file, cite, labels)
+    return Publication(id, type, title, names, in_, year, link, file, cite, abstract, labels)
 end
 
 """
