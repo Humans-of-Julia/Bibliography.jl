@@ -11,6 +11,7 @@ import BibParser: BibTeX, CFF
 # Others
 import DataStructures
 import DataStructures.OrderedSet
+import FileIO
 
 export export_bibtex, import_bibtex
 export export_cff, import_cff
@@ -24,6 +25,7 @@ include("bibtex.jl")
 include("cff.jl")
 include("csl.jl")
 include("staticweb.jl")
+include("fileio.jl")
 
 """
     export_bibtex(target, bibliography)
