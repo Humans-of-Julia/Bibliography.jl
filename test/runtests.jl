@@ -1,4 +1,5 @@
 using Bibliography
+using FileIO
 using Test
 using ReferenceTests
 
@@ -44,3 +45,4 @@ rm("demo_export.bib")
 include("sort_bibliography.jl")
 include("staticweb.jl")
 include("cff.jl")
+include("test-fileio.jl")
