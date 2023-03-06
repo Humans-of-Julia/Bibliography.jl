@@ -24,6 +24,19 @@ function xtitle(entry)
     return isdefined(entry, :title) ? entry.title : get(entry.fields, "title", "")
 end
 
+
+function _initial(name)
+    initial = ""
+    _name = Unicode.normalize(strip(name))
+    if length(_name) > 0
+        initial = "$(_name[1])."
+        for part in split(_name, "-")[2:end]
+            initial *= "-$(part[1])."
+        end
+    end
+    return initial
+end
+
 """
     xnames(entry, editors = false; names = :full)
 
@@ -32,12 +45,14 @@ Format the name of an `Entry` for web export.
 # Arguments:
 - `entry`: an entry
 - `editors`: `true` if the name describes editors
-- `names`: :full (full names) or :last (last names + first name abbreviation)
+- `names`: :full (full names), :last (last names + first name initials), or :lastonly (last names only)
+- `and`: `true` if the last two names should be delimited with " and "
 """
 function xnames(
     entry,
     editors=false;
-    names=:full, # Current options: :last, :full
+    names=:full,
+    and=false,
 )
     # forces the names to be editors' name if the entry are Proceedings
     if !editors && entry.type ∈ ["proceedings"]
@@ -45,16 +60,24 @@ function xnames(
     end
     entry_names = editors ? entry.editors : entry.authors
 
-    if names == :last
+    if names == :full
+        parts = map(s -> [s.first, s.middle, s.particle, s.last, s.junior], entry_names)
+    elseif names == :last
+        parts = map(s -> [_initial(s.first), _initial(s.middle), s.particle, s.last, s.junior], entry_names)
+    elseif names  == :lastonly
         parts = map(s -> [s.particle, s.last, s.junior], entry_names)
     else
-        parts = map(s -> [s.first, s.middle, s.particle, s.last, s.junior], entry_names)
+        error("Invalid names=$(repr(names)) not in :full, :last, :lastonly")
     end
 
     entry_names = map(parts) do s
         return join(filter(!isempty, s), " ")
     end
-    str = join(entry_names, ", ")
+    if and
+        str = join(entry_names, ", ", " and ")
+    else
+        str = join(entry_names, ", ")
+    end
     return replace(str, r"[\n\r ]+" => " ") # TODO: make it cleaner (is replace still necessary)
 end
 
