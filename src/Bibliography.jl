@@ -12,6 +12,7 @@ import BibParser: BibTeX, CFF
 import DataStructures
 import DataStructures.OrderedSet
 import FileIO
+import Unicode
 
 export export_bibtex, import_bibtex
 export export_cff, import_cff
