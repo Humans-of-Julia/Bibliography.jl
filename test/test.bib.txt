@@ -1,9 +1,9 @@
 key: CiteEprint
   title: 'Automatic Cost Function Learning with Interpretable Compositional Networks'
   names: 'Florian Richoux, Jean-François Baffier'
-     in: 'arXiv:2002.09811 [cs.AI].'
+     in: '2020.'
    year: '2020'
-   link: 'https://arxiv.org/abs/2002.09811'
+   link: ''
    file: 'files/CiteEprint.pdf'
 
 key: CitekeyArticle
@@ -113,8 +113,8 @@ key: CitekeyUnpublished
 key: baffier2017experimental
   title: 'Experimental Study of Compressed Stack Algorithms in Limited Memory Environments'
   names: 'Jean-François Baffier, Yago Diez, Matias Korman'
-     in: 'arXiv:1706.04708 [cs.DS].'
+     in: '2017, Well, a note.'
    year: '2017'
-   link: 'https://arxiv.org/abs/1706.04708'
+   link: ''
    file: 'files/baffier2017experimental.pdf'
 
