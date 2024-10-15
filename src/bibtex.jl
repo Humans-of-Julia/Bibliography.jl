@@ -104,6 +104,8 @@ function in_to_bibtex!(fields, in_)
     fields["chapter"] = in_.chapter
     fields["edition"] = in_.edition
     fields["institution"] = in_.institution
+    fields["isbn"] = in_.isbn
+    fields["issn"] = in_.issn
     fields["journal"] = in_.journal
     fields["number"] = in_.number
     fields["organization"] = in_.organization
