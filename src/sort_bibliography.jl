@@ -1,8 +1,10 @@
 """
     const sorting_rules = Dict{Symbol, Vector{Symbol}}(
-        :nty  => [:authors;:editors;:title;:date],
-        :nyt  => [:authors;:editors;:date;:title],
-        :y    => [:date]
+    				:nty  => [:authors; :title; :date],
+    				:nyt  => [:authors; :date; :title],
+    				:nety => [:authors; :editors; :title; :date],
+    				:neyt => [:authors; :editors; :date; :title],
+   					:y    => [:date],
     );
 
 Implemented sorting rules for bibliography entry sorting.
@@ -10,8 +12,10 @@ Implemented sorting rules for bibliography entry sorting.
 See also [`sort_bibliography!`](@ref).
 """
 const sorting_rules = Dict{Symbol, Vector{Symbol}}(
-    :nty => [:authors; :editors; :title; :date],
-    :nyt => [:authors; :editors; :date; :title],
+    :nty => [:authors; :title; :date],
+    :nyt => [:authors; :date; :title],
+    :nety => [:authors; :editors; :title; :date],
+    :neyt => [:authors; :editors; :date; :title],
     :y => [:date]
 )
 
