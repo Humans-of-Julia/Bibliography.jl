@@ -149,9 +149,9 @@ function xin(entry)
         temp = [get(entry.fields, "note", ""), entry.date.year]
     end
     if temp_last
-        str *= join(filter!(!isempty, temp), ", ", ". ")
+        str *= something(join(filter!(!isempty, temp), ", ", ". "), "")
     else
-        str *= join(filter!(!isempty, temp), ", ")
+        str *= something(join(filter!(!isempty, temp), ", "), "")
     end
     if !isempty(str)
         str *= "."
