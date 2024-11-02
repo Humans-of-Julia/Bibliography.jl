@@ -1,10 +1,11 @@
 """
-    import_bibtex(input)
+    import_bibtex(input; check = :error)
 Import a BibTeX file or parse a BibTeX string and convert it to the internal bibliography format.
 The `check` keyword argument can be set to `:none` (or `nothing`), `:warn`, or `:error` to raise appropriate logs.
 """
 function import_bibtex(input; check = :error)
-    return isfile(input) ? BibParser.parse_file(input; check) : BibParser.parse_entry(input; check)
+    return isfile(input) ? BibParser.parse_file(input; check) :
+           BibParser.parse_entry(input; check)
 end
 
 """
@@ -14,7 +15,7 @@ Make a string of `n` spaces.
 """
 int_to_spaces(n) = repeat(" ", n)
 
-const spaces = Dict{String,String}(
+const spaces = Dict{String, String}(
     map(s -> (string(s) => int_to_spaces(BibInternal.space(s))), BibInternal.fields)
 )
 
@@ -103,6 +104,8 @@ function in_to_bibtex!(fields, in_)
     fields["chapter"] = in_.chapter
     fields["edition"] = in_.edition
     fields["institution"] = in_.institution
+    fields["isbn"] = in_.isbn
+    fields["issn"] = in_.issn
     fields["journal"] = in_.journal
     fields["number"] = in_.number
     fields["organization"] = in_.organization
@@ -126,6 +129,7 @@ function export_bibtex(e::Entry)
     e.fields["editor"] = names_to_strings(e.editors)
     eprint_to_bibtex!(e.fields, e.eprint)
     in_to_bibtex!(e.fields, e.in)
+    e.fields["note"] = e.note
     e.fields["title"] = e.title
 
     str = "@$(e.type == "eprint" ? "misc" : e.type){$(e.id),\n"

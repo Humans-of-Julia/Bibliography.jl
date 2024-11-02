@@ -1,4 +1,4 @@
-const type_to_label = Dict{String,String}([
+const type_to_label = Dict{String, String}([
     "article" => "journal",
     "book" => "book",
     "booklet" => "booklet",
@@ -12,7 +12,7 @@ const type_to_label = Dict{String,String}([
     "phdthesis" => "doctoral thesis",
     "proceedings" => "proceedings",
     "techreport" => "report",
-    "unpublished" => "other",
+    "unpublished" => "other"
 ])
 
 """
@@ -35,9 +35,9 @@ Format the name of an `Entry` for web export.
 - `names`: :full (full names) or :last (last names + first name abbreviation)
 """
 function xnames(
-    entry,
-    editors=false;
-    names=:full, # Current options: :last, :full
+        entry,
+        editors = false;
+        names = :full # Current options: :last, :full
 )
     # forces the names to be editors' name if the entry are Proceedings
     if !editors && entry.type ∈ ["proceedings"]
@@ -72,7 +72,7 @@ function xin(entry)
             entry.in.journal,
             entry.in.volume * (entry.in.number != "" ? "($(entry.in.number))" : ""),
             entry.in.pages,
-            entry.date.year,
+            entry.date.year
         ]
     elseif entry.type == "book"
         temp = [entry.in.publisher, entry.in.address, entry.date.year]
@@ -89,7 +89,7 @@ function xin(entry)
             entry.booktitle,
             isempty(entry.in.chapter) ? entry.in.pages : entry.in.chapter,
             entry.in.publisher,
-            entry.in.address,
+            entry.in.address
         ]
     elseif entry.type == "incollection"
         # TODO: check if this new or the old format is/was correct, that "editors" seems out of place (and the title was switched with the names)?
@@ -99,7 +99,7 @@ function xin(entry)
             xnames(entry, true),
             entry.in.pages * ". " * entry.in.publisher, # TODO: conditional ". " if one of the strings is empty?
             entry.in.address,
-            entry.date.year,
+            entry.date.year
         ]
     elseif entry.type == "inproceedings"
         temp_last = entry.in.publisher != ""
@@ -109,7 +109,7 @@ function xin(entry)
             entry.in.pages,
             entry.in.address,
             entry.date.year,
-            entry.in.publisher,
+            entry.in.publisher
         ]
     elseif entry.type == "manual"
         temp = [entry.in.organization, entry.in.address, entry.date.year]
@@ -118,18 +118,15 @@ function xin(entry)
             (entry.type == "mastersthesis" ? "Master's" : "PhD") * " thesis",
             entry.in.school,
             entry.in.address,
-            entry.date.year,
+            entry.date.year
         ]
     elseif entry.type == "misc"
-        temp_last =
-            get(entry.fields, "note", "") != "" &&
-            entry.access.howpublished != "" &&
-            entry.date.year != ""
-        temp = [
-            entry.access.howpublished
-            entry.date.year
-            get(entry.fields, "note", "")
-        ]
+        temp_last = get(entry.fields, "note", "") != "" &&
+                    entry.access.howpublished != "" &&
+                    entry.date.year != ""
+        temp = [entry.access.howpublished
+                entry.date.year
+                get(entry.fields, "note", "")]
     elseif entry.type == "proceedings"
         temp_last = entry.in.publisher != ""
         temp = [
@@ -137,7 +134,7 @@ function xin(entry)
             entry.in.series,
             entry.in.address,
             entry.date.year,
-            entry.in.publisher,
+            entry.in.publisher
         ]
         # TODO: check if this old line here was a hidden bug
         # str *= entry.in.publisher != "" ? ". $(entry.in.address)" : ""
@@ -146,15 +143,15 @@ function xin(entry)
             entry.in.number != "" ? "Technical Report $(entry.in.number)" : "",
             entry.in.institution,
             entry.in.address,
-            entry.date.year,
+            entry.date.year
         ]
     elseif entry.type == "unpublished"
         temp = [get(entry.fields, "note", ""), entry.date.year]
     end
     if temp_last
-        str *= join(filter!(!isempty, temp), ", ", ". ")
+        str *= something(join(filter!(!isempty, temp), ", ", ". "), "")
     else
-        str *= join(filter!(!isempty, temp), ", ")
+        str *= something(join(filter!(!isempty, temp), ", "), "")
     end
     if !isempty(str)
         str *= "."
@@ -249,7 +246,8 @@ function Publication(entry)
     cite = export_bibtex(entry)
     abstract = get(entry.fields, "abstract", "")
     labels = xlabels(entry)
-    return Publication(id, type, title, names, in_, year, link, file, cite, abstract, labels)
+    return Publication(
+        id, type, title, names, in_, year, link, file, cite, abstract, labels)
 end
 
 """

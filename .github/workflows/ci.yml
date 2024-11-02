@@ -1,8 +1,48 @@
 name: CI
 on:
-  - push
-  - pull_request
+  pull_request:
+    branches:
+      - master
+      - dev
+    paths-ignore:
+      - "docs/**"
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "docs/**"
 jobs:
+  formatter:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        julia-version: [1]
+        julia-arch: [x86]
+        os: [ubuntu-latest]
+    steps:
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: ${{ matrix.julia-version }}
+
+      - uses: actions/checkout@v4
+      - name: Install JuliaFormatter and format
+        # This will use the latest version by default but you can set the version like so:
+        #
+        # julia  -e 'using Pkg; Pkg.add(PackageSpec(name="JuliaFormatter", version="0.13.0"))'
+        run: |
+          julia  -e 'using Pkg; Pkg.add(PackageSpec(name="JuliaFormatter", version="1.0.50"))'
+          julia  -e 'using JuliaFormatter; format(".", verbose=true)'
+      - name: Format check
+        run: |
+          julia -e '
+          out = Cmd(`git diff`) |> read |> String
+          if out == ""
+              exit(0)
+          else
+              @error "Some files have not been formatted !!!"
+              write(stdout, out)
+              exit(1)
+          end'
   test:
     name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }} - ${{ github.event_name }}
     runs-on: ${{ matrix.os }}
@@ -10,28 +50,32 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - '1.6'
-          - '1.7'
-          - 'nightly'
+          - "lts"
+          - "1"
+          - "pre"
         os:
           - ubuntu-latest
-          - macOS-latest
-          - windows-latest
         arch:
           - x64
           - x86
-        exclude:
+        include:
+          # test macOS and Windows with latest Julia only
           - os: macOS-latest
-            arch: x86
+            arch: x64
+            version: 1
+          - os: windows-latest
+            arch: x64
+            version: 1
           - os: windows-latest
             arch: x86
+            version: 1
     steps:
-      - uses: actions/checkout@v2
-      - uses: julia-actions/setup-julia@v1
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
-      - uses: actions/cache@v1
+      - uses: actions/cache@v4
         env:
           cache-name: cache-artifacts
         with:
@@ -44,15 +88,15 @@ jobs:
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
       - uses: julia-actions/julia-processcoverage@v1
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v4
         with:
           file: lcov.info
   docs:
     name: Documentation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: julia-actions/setup-julia@v1
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
         with:
           version: "1"
       - run: |

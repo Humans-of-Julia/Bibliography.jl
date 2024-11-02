@@ -1,9 +1,9 @@
 key: CiteEprint
   title: 'Automatic Cost Function Learning with Interpretable Compositional Networks'
   names: 'Florian Richoux, Jean-François Baffier'
-     in: 'arXiv:2002.09811 [cs.AI].'
+     in: '2020.'
    year: '2020'
-   link: 'https://arxiv.org/abs/2002.09811'
+   link: ''
    file: 'files/CiteEprint.pdf'
 
 key: CitekeyArticle
@@ -73,7 +73,7 @@ key: CitekeyMastersthesis
 key: CitekeyMisc
   title: 'Pluto: The 'Other' Red Planet'
   names: 'NASA'
-     in: '\url{https://www.nasa.gov/nh/pluto-the-other-red-planet}, 2015. Accessed: 2018-12-06.'
+     in: '\url{https://www.nasa.gov/nh/pluto-the-other-red-planet}, 2015.'
    year: '2015'
    link: ''
    file: 'files/CitekeyMisc.pdf'
@@ -105,7 +105,7 @@ key: CitekeyTechreport
 key: CitekeyUnpublished
   title: 'Evolution: a revised theory'
   names: 'Mohinder Suresh'
-     in: 'Well, a note, 2006.'
+     in: '2006.'
    year: '2006'
    link: ''
    file: 'files/CitekeyUnpublished.pdf'
@@ -113,8 +113,8 @@ key: CitekeyUnpublished
 key: baffier2017experimental
   title: 'Experimental Study of Compressed Stack Algorithms in Limited Memory Environments'
   names: 'Jean-François Baffier, Yago Diez, Matias Korman'
-     in: 'arXiv:1706.04708 [cs.DS].'
+     in: '2017.'
    year: '2017'
-   link: 'https://arxiv.org/abs/1706.04708'
+   link: ''
    file: 'files/baffier2017experimental.pdf'
 

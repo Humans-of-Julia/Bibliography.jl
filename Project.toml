@@ -1,7 +1,7 @@
 name = "Bibliography"
 uuid = "f1be7e48-bf82-45af-a471-ae754a193061"
 authors = ["azzaare <jf@baffier.fr>"]
-version = "0.2.19"
+version = "0.2.21"
 
 [deps]
 BibInternal = "2027ae74-3657-4b95-ae00-e2f7d55c3e64"
@@ -9,12 +9,27 @@ BibParser = "13533e5b-e1c2-4e57-8cef-cac5e52f6474"
 DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
+TestItems = "1c621080-faea-4a02-84b6-bbd5e436b8fe"
 YAML = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
 
 [compat]
-BibInternal = "0.3.3"
-BibParser = "0.2.1"
+BibInternal = "0.3.7"
+BibParser = "0.2.2"
 DataStructures = "0.18"
+Dates = "1"
 FileIO = "1"
+TestItems = "1"
 YAML = "0.4"
-julia = "1.6"
+julia = "1.10"
+
+[extras]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+ExplicitImports = "7d51a73a-1435-4ff3-83d9-f097790105c7"
+FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
+JET = "c3a54625-cd67-489e-a8e7-0a5a0ff4e31b"
+ReferenceTests = "324d217c-45ce-50fc-942e-d289b448e8cf"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+TestItemRunner = "f8b46487-2199-4994-9208-9a1283c18c0a"
+
+[targets]
+test = ["Aqua", "ExplicitImports", "FileIO", "JET", "ReferenceTests", "Test", "TestItemRunner"]
