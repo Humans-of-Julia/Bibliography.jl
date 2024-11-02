@@ -9,10 +9,10 @@ Implemented sorting rules for bibliography entry sorting.
 
 See also [`sort_bibliography!`](@ref).
 """
-const sorting_rules = Dict{Symbol,Vector{Symbol}}(
+const sorting_rules = Dict{Symbol, Vector{Symbol}}(
     :nty => [:authors; :editors; :title; :date],
     :nyt => [:authors; :editors; :date; :title],
-    :y => [:date],
+    :y => [:date]
 )
 
 """
@@ -37,7 +37,7 @@ Supported symbols for `sorting_rule` are:
     implemented `isless()` functions (string comparators).
 """
 function sort_bibliography!(
-    bibliography::DataStructures.OrderedDict{String,Entry}, sorting_rule::Symbol=:key
+        bibliography::DataStructures.OrderedDict{String, Entry}, sorting_rule::Symbol = :key
 )
     # TODO: allow Union{Symbol,Vector{Symbol}} for a arbitrary custom sorting order
     #       this needs one additional type check and a check for allowed symbols in
@@ -47,8 +47,8 @@ function sort_bibliography!(
     elseif sorting_rule in keys(sorting_rules)
         sort!(
             bibliography;
-            lt=(a, b) -> recursive_isless(a, b, sorting_rules[sorting_rule]),
-            by=x -> bibliography[x],
+            lt = (a, b) -> recursive_isless(a, b, sorting_rules[sorting_rule]),
+            by = x -> bibliography[x]
         )
     else
         throw(ArgumentError("Unsupported sorting order!"))
@@ -68,7 +68,7 @@ argument is a tuple consisting of symbols denoting the fields of the data type
 
 The `depth` argument is purely for iterating/recursive purposes.
 """
-function recursive_isless(a::Entry, b::Entry, fields::Vector{Symbol}, depth::Int=1)::Bool
+function recursive_isless(a::Entry, b::Entry, fields::Vector{Symbol}, depth::Int = 1)::Bool
     depth > length(fields) && return false
     a_field = getfield(a, fields[depth])
     b_field = getfield(b, fields[depth])
