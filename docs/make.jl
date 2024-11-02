@@ -3,7 +3,7 @@ using Documenter, Bibliography, BibParser, BibInternal
 makedocs(
     sitename = "Bibliography.jl",
     authors = "Jean-François BAFFIER",
-    repo="https://github.com/Humans-of-Julia/Bibliography.jl/blob/{commit}{path}#L{line}",
+    repo = "https://github.com/Humans-of-Julia/Bibliography.jl/blob/{commit}{path}#L{line}",
     format = Documenter.HTML(
         prettyurls = get(ENV, "CI", nothing) == "true"
     ),
