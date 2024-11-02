@@ -3,6 +3,9 @@ extend-ignore-re = [
     "iMatix"
 ]
 
+[files]
+extend-exclude = ["*.bib"]
+
 [default.extend-words]
 annote = "annote"
 inbrace = "inbrace"
